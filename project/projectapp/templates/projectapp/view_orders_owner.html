@@ -1,0 +1,88 @@
+{% extends 'projectapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row m-5"> 
+        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+            <div class="row">
+                <div class="col-md-3"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+
+                <div class="col-md-9 my-auto">
+                    <h3> View Orders </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 m-auto" style="background-color: #B2000033; border-radius: 25px;"> 
+            <div class="row"> 
+                <div class="col-md-9 my-auto">
+                    <div class="row"> 
+                        <h3 class="text-end"> Hi! (User Name) </h3>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end"> Owner </h5>
+                    </div>
+                </div>                    
+                <div class="col-md-3">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-5">
+        <div class="col-8 text-start my-3"> 
+            <input type="search" class="form-control" id="search" name="search" placeholder="Type here">
+        </div>
+    </div>
+
+    <div class="row m-5"> 
+        <table class="table text-center">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Reference Number</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Payment Status</th>
+                    <th scope="col">Order Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-light">
+                    <td>CO 00001</td>
+                    <td>January 10, 2020</td>
+                    <td>Ben Santos</td>
+                    <td>Approved</td>
+                    <td>Ready for Delivery</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="row m-5"> 
+        <div class="col-12 text-end my-3"> 
+            <a class="btn btn-primary" href="{% url 'homepage' %}"> Back to Main Menu </a>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+    </nav>
+</div>
+    
+{% endblock %}
