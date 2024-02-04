@@ -1,0 +1,73 @@
+{% extends 'projectapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row m-5"> 
+        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+            <div class="row">
+                <div class="col-md-3"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+
+                <div class="col-md-9 my-auto">
+                    <h3> Sales System </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 m-auto" style="background-color: #EBF8EC; border-radius: 25px;"> 
+            <div class="row"> 
+                <div class="col-md-9 my-auto">
+                    <div class="row"> 
+                        <h3 class="text-end"> Hi! (User Name) </h3>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end"> Employee Type </h5>
+                    </div>
+                    
+                </div>                    
+                <div class="col-md-3">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row m-5">
+        <div class="col d-flex flex-column align-items-center mt-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'view_customers' %}">
+                <img src="{% static 'projectapp/rating.png' %}" class="img-fluid p-5" alt="View Customers" width="450" height="450">
+                View Customers 
+            </a>
+        </div>
+
+        <div class="col d-flex flex-column align-items-center mt-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'view_orders' %}">
+                <img src="{% static 'projectapp/checkout.png' %}" class="img-fluid p-5" alt="View Orders">
+                View Orders 
+            </a>
+        </div>
+    </div>
+
+    <div class="row m-5">
+        <div class="col d-flex flex-column align-items-center mb-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'view_inventory' %}"> 
+                <img src="{% static 'projectapp/box.png' %}" class="img-fluid p-5" alt="View Inventory">
+                View Inventory 
+            </a>
+        </div>
+
+        <div class="col d-flex flex-column align-items-center mb-5"> 
+            <a class="btn btn-danger btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;"> 
+                <img src="{% static 'projectapp/logout.png' %}" class="img-fluid p-5" alt="Logout">
+                Logout 
+            </a>
+        </div>
+    </div>
+
+</div>
+    
+{% endblock %}

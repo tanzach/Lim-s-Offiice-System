@@ -1,0 +1,161 @@
+{% extends 'projectapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row m-5"> 
+        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+            <div class="row">
+                <div class="col-md-3"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+
+                <div class="col-md-9 my-auto">
+                    <h3> Customer Order </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 m-auto" style="background-color: #D9EFFB; border-radius: 25px;"> 
+            <div class="row"> 
+                <div class="col-md-9 my-auto">
+                    <div class="row"> 
+                        <h3 class="text-end"> Hi! (User Name) </h3>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end"> Warehouse Staff </h5>
+                    </div>
+                </div>                    
+                <div class="col-md-3">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row"> 
+        <div class="col-8 rounded border border-5">
+            <div class="row"> 
+                <div class="col"> 
+                    <strong> Customer: </strong>
+                </div>
+                <div class="col"> 
+                    <strong> <u> Ben Santos </u> </strong>
+                </div>
+                <div class="col"> 
+                    <strong> Payment Status: </strong>
+                </div>
+                <div class=col> 
+                    <strong> <u> Pending </u> </strong>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="col"> 
+                    <strong> Order Date: </strong>
+                </div>
+                <div class="col"> 
+                    <strong> <u> 01/10/2023 </u> </strong>
+                </div>
+                <div class="col"> 
+                    <strong> Order Status: </strong>
+                </div>
+                <div class=col> 
+                    <strong> <u> Pending Payment </u> </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 text-end"> 
+            <button class="btn btn-success" style="width: 200px;"> Edit Order </button>
+        </div>
+
+    
+    <div class="row my-5"> 
+        <table class="table text-center">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Name</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Revised Quantity</th>
+                    <th scope="col">AC Code</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-light">
+                    <td>HBW 0.5 Ballpen</td>
+                    <td>Piece</td>
+                    <td>23.00</td>
+                    <td>10</td>
+                    <td>-</td>
+                    <td>A1B2C3</td>
+                    <td>10%</td>
+                    <td>218.5</td>
+                </tr>
+                <tr class="table-light">
+                    <td>HBW 0.5 Ballpen</td>
+                    <td>Piece</td>
+                    <td>23.00</td>
+                    <td>10</td>
+                    <td>-</td>
+                    <td>A1B2C3</td>
+                    <td>10%</td>
+                    <td>218.5</td>
+                </tr>
+                <tr class="table-light">
+                    <td>HBW 0.5 Ballpen</td>
+                    <td>Piece</td>
+                    <td>23.00</td>
+                    <td>10</td>
+                    <td>-</td>
+                    <td>A1B2C3</td>
+                    <td>10%</td>
+                    <td>218.5</td>
+                </tr>
+                <tr class="table-light">
+                    <td>HBW 0.5 Ballpen</td>
+                    <td>Piece</td>
+                    <td>23.00</td>
+                    <td>10</td>
+                    <td>-</td>
+                    <td>A1B2C3</td>
+                    <td>10%</td>
+                    <td>218.5</td>
+                </tr>
+                <tr class="table-dark">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td>12345.67</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row"> 
+        <div class="col"> 
+            <div class="form-group p-2"> 
+                <label for="exampleFormControlTextarea1" class="form-label"> <strong> Note: </strong> </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="(fills Note)" readonly></textarea>
+            </div>
+        </div>
+
+        <div class="col"> 
+            <div class="row float-end"> 
+                <button class="btn btn-primary" id="backButton" style="width: 160px;"> Back </button>
+                <button class="btn btn-light mx-2" id="printorderButton" style="width: 160px;"> Print Order </button>
+                <button class="btn btn-success mx-2" id="readyfordeliveryButton" style="width: 160px;"> Ready for Delivery </button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

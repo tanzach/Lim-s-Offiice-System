@@ -1,0 +1,66 @@
+{% extends 'projectapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row m-5"> 
+        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+            <div class="row">
+                <div class="col-md-3"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+
+                <div class="col-md-9 my-auto">
+                    <h3> Sales System </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 m-auto" style="background-color: #EBF8EC; border-radius: 25px;"> 
+            <div class="row"> 
+                <div class="col-md-9 my-auto">
+                    <div class="row"> 
+                        <h3 class="text-end"> Hi! (User Name) </h3>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end"> Office Clerk </h5>
+                    </div>
+                    
+                </div>                    
+                <div class="col-md-3">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col text-center m-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'view_customers' %}" style="width: 340px;"> View Customers </a>
+        </div>
+        <div class="col text-center m-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'manage_account' %}" style="width: 340px;"> Manage Account </a>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col text-center m-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'view_orders' %}" style="width: 340px;"> View Orders </a>
+        </div>
+
+        <div class="col text-center m-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'view_inventory' %}" style="width: 340px;"> View Inventory </a>
+        </div>
+    </div>
+
+    <div class="row m-5">
+        <div class="col text-center m-5"> 
+            <a class="btn btn-danger btn-lg fs-1" href="" style="width: 340px;"> Logout </a>
+        </div>
+    </div>
+
+</div>
+    
+{% endblock %}

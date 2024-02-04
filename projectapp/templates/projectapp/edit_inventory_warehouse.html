@@ -1,0 +1,101 @@
+{% extends 'projectapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row m-5"> 
+        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+            <div class="row">
+                <div class="col-md-3"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+
+                <div class="col-md-9 my-auto">
+                    <h3> Edit Inventory </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 m-auto" style="background-color: #D9EFFB; border-radius: 25px;"> 
+            <div class="row"> 
+                <div class="col-md-9 my-auto">
+                    <div class="row"> 
+                        <h3 class="text-end"> Hi! (User Name) </h3>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end"> Warehouse Staff </h5>
+                    </div>
+                </div>                    
+                <div class="col-md-3">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-5"> 
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <div class="row">
+                    <h4> Edit Inventory </h4>
+                </div>
+                <div class="row"> 
+                    <div class="col"> 
+                        <div class="row"> 
+                            <div class="form-group p-2">
+                                <label class="form-label" for="orderdate"> <strong> Date </strong> </label>
+                                <input type="date" class="form-control" id="orderdate" name="orderdate" placeholder="MM/DD/YY">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col p-2">
+                        <strong> Products </strong>
+                    </div>
+                    
+                    <form action="" method="POST" id="myForm"> {% csrf_token %}
+                        <div class="form-field" id="field">
+                            <div class="row p-2"> 
+                                <div class="col"> 
+                                    <select class="form-select" id="productid" name="productid" placeholder="(fills Product ID)" readonly>
+                                        <option selected> Product ID </option>
+                                        <option value="Product1"> Product1 </option>
+                                        <option value="Product2"> Product2 </option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="productname" name="productname" placeholder="(fills Product Name)" readonly>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" inputmode="numeric" id="currentquantity" name="currentquantity" placeholder="(fills Current Quantity)" readonly>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" inputmode="numeric" id="quantitytobeadded" name="quantitytobeadded" placeholder="Quantity to be added">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="(fills Unit)" readonly>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="(fills Acquisition Code)" readonly>
+                                </div>
+                                <div class="col"> 
+                                    <input type="text" class="form-control" id="warehouselocation" name="warehouselocation" placeholder="(fills Warehouse location)" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row justify-content-center m-5"> 
+                    <button class="btn btn-danger mx-2" id="cancelButton" style="width: 200px;"> Cancel </button>
+                    <button class="btn btn-success mx-2" id="saveButton" style="width: 200px;"> Save </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
