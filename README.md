@@ -3,8 +3,8 @@ Navigate to directory with manage.py file
 // cd .. to go back one directory
 // dir to show directories
 
-Migrate 
+Migrate: 
 python manage.py migrate
 
-Runserver 
+Runserver: 
 python manage.py runserver
