@@ -32,21 +32,21 @@
 
                     <div class="text-center"> 
                         <img src="{% static 'projectapp/lims.png' %}" style="width: 350px;" alt="Lim's Company Logo"> 
-                        <h4 class="mt-1 mb-5 pb-1"> Sales and Inventory System </h4>
+                        <h3 class="mt-1 mb-5 pb-1"> Sales and Inventory System </h3>
                     </div>
 
                     <form method="POST" action="#"> {% csrf_token %}
                         <div class="row"> 
                             <div class="col">
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="employeeid"> Employee ID </label>
+                                    <label class="form-label" for="employeeid"> <strong> Employee ID </strong> </label>
                                     <input type="text" class="form-control" id="employeeid" name="employeeid" placeholder="(fills employeeid)" readonly>
                                 </div>
                             </div>
     
                             <div class="col">
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="employeetype"> Employee Type </label>
+                                    <label class="form-label" for="employeetype"> <strong>  Employee Type </strong> </label>
                                     <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here.." readonly>
                                         <option selected> (fills employeetype) </option>
                                         <option value="Owner"> Owner </option>
@@ -61,7 +61,7 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="name"> Name </label>
+                                    <label class="form-label" for="name"> <strong>  Name </strong> </label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="(fills name)" readonly>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="oldpassword"> Old Password </label>
+                                    <label class="form-label" for="oldpassword"> <strong> Old Password </strong> </label>
                                     <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="(fills oldpassword)" readonly>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="newpassword"> New Password </label>
+                                    <label class="form-label" for="newpassword"> <strong>  New Password </strong> </label>
                                     <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
                                 </div>
                             </div>

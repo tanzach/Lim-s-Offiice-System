@@ -36,28 +36,44 @@
         </div>
     </div>
 
-    <div class="row my-5">
-        <div class="col text-center m-5"> 
-            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'view_customers' %}" style="width: 340px;"> View Customers </a>
-        </div>
-        <div class="col text-center m-5"> 
-            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'manage_account' %}" style="width: 340px;"> Manage Account </a>
-        </div>
-    </div>
-
-    <div class="row my-5">
-        <div class="col text-center m-5"> 
-            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'view_orders' %}" style="width: 340px;"> View Orders </a>
+    <div class="row m-5">
+        <div class="col d-flex flex-column align-items-center mt-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'view_customers' %}">
+                <img src="{% static 'projectapp/rating.png' %}" class="img-fluid p-5" alt="View Customers" width="450" height="450">
+                View Customers 
+            </a>
         </div>
 
-        <div class="col text-center m-5"> 
-            <a class="btn btn-secondary btn-lg fs-1" href="{% url 'view_inventory' %}" style="width: 340px;"> View Inventory </a>
+        <div class="col d-flex flex-column align-items-center mt-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'manage_account' %}"> 
+                <img src="{% static 'projectapp/profile.png' %}" class="img-fluid p-5" alt="View Inventory">
+                Manage Account 
+            </a>
         </div>
     </div>
 
     <div class="row m-5">
-        <div class="col text-center m-5"> 
-            <a class="btn btn-danger btn-lg fs-1" href="" style="width: 340px;"> Logout </a>
+        <div class="col d-flex flex-column align-items-center mb-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'view_orders' %}">
+                <img src="{% static 'projectapp/checkout.png' %}" class="img-fluid p-5" alt="View Orders">
+                View Orders 
+            </a>
+        </div>
+
+        <div class="col d-flex flex-column align-items-center mb-5"> 
+            <a class="btn btn-secondary btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;" href="{% url 'view_inventory' %}"> 
+                <img src="{% static 'projectapp/box.png' %}" class="img-fluid p-5" alt="View Inventory">
+                View Inventory 
+            </a>
+        </div>
+    </div>
+
+    <div class="row m-5"> 
+        <div class="col d-flex flex-column align-items-center mb-5"> 
+            <a class="btn btn-danger btn-lg fs-1" style="width: 340px; height:340px; display:flex; flex-direction: column; align-items:center; justify-content:flex-end;"> 
+                <img src="{% static 'projectapp/logout.png' %}" class="img-fluid p-5" alt="Logout">
+                Logout 
+            </a>
         </div>
     </div>
 
