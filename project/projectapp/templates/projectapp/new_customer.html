@@ -58,16 +58,16 @@
                         </div>
                     {% endfor %}
 
-                    <form method="POST" action="#"> {% csrf_token %}
+                    <form method="POST" action="{% url 'new_customer' %}"> {% csrf_token %}
                         <div class="row mb-2"> 
                             <div class="col text-center m-3">
                                 <strong class="mx-2"> Customer Type </strong>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="Business" name="Individual" value="Business" checked>
+                                    <input class="form-check-input" type="radio" id="ordertype" name="ordertype" value="Business" checked>
                                     <label class="form-check-label" for="Business">Business</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="Individual" name="Individual" value="Individual">
+                                    <input class="form-check-input" type="radio" id="ordertype" name="ordertype" value="Individual">
                                     <label class="form-check-label" for="Individual">Individual</label>
                             </div>
                         </div>
@@ -107,18 +107,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row mb-4">
+                            <div class="col text-end"> 
+                                <a class="btn btn-danger" style="width: 250px;" href="{% url 'view_customers' %}"> Cancel </a>
+                            </div>
+                            <div class="col text-start"> 
+                                <button type="submit" class="btn btn-success" style="width: 250px;"> Save </button>
+                            </div>
+                        </div> 
                     </form>      
                 </div>
             </div>
 
-            <div class="row mb-4">
-                <div class="col text-end"> 
-                    <button onlick="history.back()" class="btn btn-danger" style="width: 250px;"> Cancel </button>
-                </div>
-                <div class="col text-start"> 
-                    <button type="submit" class="btn btn-success" style="width: 250px;"> Save </button>
-                </div>
-            </div> 
         </div>
     </div>
 </body>

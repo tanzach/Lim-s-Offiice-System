@@ -23,7 +23,6 @@ urlpatterns = [
     path('homepage', views.homepage, name='homepage'),
 
     path('signup', views.signup, name='signup'),
-    path('current_time/', views.current_time, name='current_time'),
     path('manage_account', views.manage_account, name='manage_account'),
     path('homepage_office', views.homepage_office, name='homepage_office'),
     path('edit_account', views.edit_account, name='edit_account'),

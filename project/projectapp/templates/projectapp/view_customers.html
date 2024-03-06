@@ -45,7 +45,7 @@
     </div>
 
     <div class="row m-5"> 
-        <table class="table text-center">
+        <table id="viewcustomers" class="table display text-center">
             <thead>
                 <tr class="table-primary">
                     <th scope="col">Customer ID</th>
@@ -57,14 +57,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for c in customers %}
                 <tr class="table-light">
-                    <td><a href="{% url 'edit_customer' %}"> C 0001 </a></td>
-                    <td>Business</td>
-                    <td>Dodus Enterprise</td>
-                    <td>Ben Santos</td>
-                    <td>dduts@gmail.com</td>
-                    <td>0917-788-9990</td>
+                    <td><a href=""> {{c.Customer_ID}} </a></td>
+                    <td> {{c.Customer_Type}}</td>
+                    <td> {{c.Company_Name}} </td>
+                    <td> {{c.Primary_Contact_Name}} </td>
+                    <td> {{c.Email}} </td>
+                    <td> {{c.Phone_Number}} </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
