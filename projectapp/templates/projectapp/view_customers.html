@@ -45,50 +45,41 @@
     </div>
 
     <div class="row m-5"> 
-        <table class="table text-center">
+        <table id="viewcustomers" class="table table-striped display text-center">
             <thead>
-                <tr class="table-primary">
-                    <th scope="col">Customer ID</th>
-                    <th scope="col">Customer Type</th>
-                    <th scope="col">Company Name</th>
-                    <th scope="col">Primary Contact</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone Number</th>
+                <tr class="table-light">
+                    <th class="text-center" scope="col">Customer ID</th>
+                    <th class="text-center" scope="col">Customer Type</th>
+                    <th class="text-center" scope="col">Company Name</th>
+                    <th class="text-center" scope="col">Primary Contact</th>
+                    <th class="text-center" scope="col">Email</th>
+                    <th class="text-center" scope="col">Phone Number</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="table-light">
-                    <td><a href="{% url 'edit_customer' %}"> C 0001 </a></td>
-                    <td>Business</td>
-                    <td>Dodus Enterprise</td>
-                    <td>Ben Santos</td>
-                    <td>dduts@gmail.com</td>
-                    <td>0917-788-9990</td>
+                {% for c in customers %}
+                <tr class="table-light text-center">
+                    <td class="text-center"><a href=""> {{c.Customer_ID}} </a></td>
+                    <td class="text-center"> {{c.Customer_Type}}</td>
+                    <td class="text-center"> {{c.Company_Name}} </td>
+                    <td class="text-center"> {{c.Primary_Contact_Name}} </td>
+                    <td class="text-center"> {{c.Email}} </td>
+                    <td class="text-center"> {{c.Phone_Number}} </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
-
 
     <div class="row m-5"> 
         <div class="col-12 text-end my-3"> 
             <a class="btn btn-primary" href="{% url 'homepage' %}"> Back to Main Menu </a>
         </div>
     </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-    </nav>
 </div>
+
+<script> 
+    new DataTable('#viewcustomers');
+</script>
     
 {% endblock %}
