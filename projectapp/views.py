@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Account, Customer, Inventory, Product_Price, Order, Order_Inventory
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from datetime import datetime 
 
 # Create your views here.
@@ -15,18 +16,12 @@ def signup(request):
         name = request.POST.get('name')
         password = request.POST.get('password')
 
-        person = Account.objects.filter(Employee_ID=employee_id, 
-                                        Employee_Type=employee_type, 
-                                        Name=name, 
-                                        Password=password)
+        person = Account.objects.filter(Employee_ID=employee_id, Employee_Type=employee_type, Name=name, Password=password)
         if person.exists() == True: 
             messages.error(request, "Account already exists.", extra_tags='alert-danger')
             return redirect('signup')
         else: 
-            Account.objects.create(Employee_ID=employee_id, 
-                                   Employee_Type=employee_type, 
-                                   Name=name, 
-                                   Password=password)
+            Account.objects.create(Employee_ID=employee_id, Employee_Type=employee_type, Name=name, Password=password)
             messages.success(request, "Account created successfully.", extra_tags='alert-success')
             return redirect('login')
     else: 
@@ -36,16 +31,26 @@ def login(request):
     if(request.method=="POST"):
         employee_id = request.POST.get('employeeid')
         password = request.POST.get('password')
-        acc = Account.objects.filter(Employee_ID=employee_id, 
-                                     Password=password)
-        if acc.exists() == True:
+        account = Account.objects.filter(Employee_ID=employee_id, Password=password)
+        
+        if account.exists() == True:
+            user = authenticate(request, username=employee_id, password=password)
+            if user is not None: 
+                login(request, user)
             # acc = get_object_or_404(Account, Employee_ID=employee_id, Password=password)
-            return redirect('homepage')
+                return redirect('homepage')
+            else: 
+                messages.error(request, "Try again bro", extra_tags='alert-danger')
+                return redirect('login')
         else: 
             messages.error(request, "Invalid Login", extra_tags='alert-danger')
             return redirect('login')
     else: 
         return render(request, 'projectapp/login.html')
+    
+def logout(request): 
+    logout(request)
+    return redirect('login')
     
 def homepage(request):
     return render(request, 'projectapp/homepage.html')

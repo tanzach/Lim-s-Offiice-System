@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="row float-end p-2"> 
-                    <button class="btn btn-danger mx-1" id="cancelButton" style="width: 200px;"> Cancel </button>
+                    <a class="btn btn-danger mx-1" id="cancelButton" style="width: 200px;"> Cancel </button>
                     <button class="btn btn-success mx-1" id="saveButton" style="width: 200px;"> Save </button>
                 </div>
             </div>
@@ -122,7 +122,8 @@
         function addFormField() {
           // Create a new form field
           var newField = document.createElement("div");
-          newField.className = "form-field${fieldCounter}";
+          console.log(fieldCounter);
+          newField.className = "form-field"+fieldCounter;
           newField.innerHTML = `
             <div class="row p-2"> 
                 <div class="col"> 
@@ -167,8 +168,9 @@
           form.insertAdjacentElement("afterend", newField)
         }
     
-        function deleteFormField(fieldNumber) {
+        function deleteFormField(fieldCounter) {
             var formField = document.getElementById('field${fieldCounter}');
+            console.log({fieldCounter});
             formField.remove();
         }
 

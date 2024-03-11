@@ -131,7 +131,7 @@
                     </div>
                     <div class="col"> 
                         <div class="row float-end"> 
-                            <button class="btn btn-danger mx-1" id="cancelButton" style="width: 200px;"> Cancel </button>
+                            <a class="btn btn-danger mx-1" id="cancelButton" style="width: 200px;" href="{% url 'view_orders' %}"> Cancel </a>
                             <button class="btn btn-success mx-1" id="saveButton" style="width: 200px;"> Save </button>
                         </div>
                     </div>
@@ -147,10 +147,11 @@
 
         function addFormField() {
           // Create a new form field
+          
           var newField = document.createElement("div");
-          newField.className = "form-field${fieldCounter}";
+          newField.className = "form-field"+$(fieldCounter);
           newField.innerHTML = `
-            <div class="row p-2"> 
+            <div class="row p-2">
                 <div class="col"> 
                     <select class="form-select" id="productname${fieldCounter}" name="productname${fieldCounter}" placeholder="Product Name">
                         <option selected> Product Name </option>
@@ -193,14 +194,15 @@
           form.insertAdjacentElement("afterend", newField)
         }
     
-        function deleteFormField(fieldNumber) {
-            var formField = document.getElementById('field${fieldCounter}');
+        function deleteFormField(event) {
+        // Get the parent div of the clicked delete button
+            var formField = event.target.closest('.form-field');
             formField.remove();
         }
 
         // Add event listener to the "Add Form Field" button
         document.getElementById('addButton').addEventListener('click', addFormField);
-        document.getElementById('deleteButton').addEventListener('click', deleteFormField);
+        //document.getElementById('deleteButton').addEventListener('click', deleteFormField);
     </script>
 
 {% endblock %}

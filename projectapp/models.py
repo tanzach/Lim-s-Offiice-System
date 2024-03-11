@@ -1,9 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Account(models.Model):
-    Employee_ID = models.AutoField(primary_key=True, max_length=6, null=False)
+    Employee_ID = models.AutoField(User, primary_key=True, max_length=6, null=False)
     Employee_Type = models.CharField(max_length=255, null=False, default="")
     Name = models.CharField(max_length=255, null=False, default="")
     Password = models.CharField(max_length=16, null=False, default="")

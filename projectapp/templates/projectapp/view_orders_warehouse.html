@@ -41,7 +41,7 @@
     </div>
 
     <div class="row m-5"> 
-        <table class="table text-center">
+        <table id="vieworderswarehouse" class="table text-center">
             <thead>
                 <tr class="table-primary">
                     <th scope="col">Reference Number</th>
@@ -53,11 +53,11 @@
             </thead>
             <tbody>
                 <tr class="table-light">
-                    <td>CO 00001</td>
-                    <td>January 10, 2020</td>
-                    <td>Ben Santos</td>
-                    <td>Approved</td>
-                    <td>Ready for Delivery</td>
+                    <td class="text-center">CO 00001</td>
+                    <td class="text-center">January 10, 2020</td>
+                    <td class="text-center">Ben Santos</td>
+                    <td class="text-center">Approved</td>
+                    <td class="text-center">Ready for Delivery</td>
                 </tr>
             </tbody>
         </table>
@@ -69,20 +69,10 @@
             <a class="btn btn-primary" href="{% url 'homepage' %}"> Back to Main Menu </a>
         </div>
     </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-    </nav>
 </div>
     
+<script> 
+    new DataTable('#vieworderswarehouse');
+</script>
+
 {% endblock %}
