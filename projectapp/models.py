@@ -1,33 +1,26 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class Account(models.Model):
-    Employee_ID = models.AutoField(User, primary_key=True, max_length=6, null=False)
-    Employee_Type = models.CharField(max_length=255, null=False, default="")
-    Name = models.CharField(max_length=255, null=False, default="")
-    Password = models.CharField(max_length=16, null=False, default="")
-    objects = models.Manager()
+    # Name = models.CharField(max_length=255, null=False, default="")
+    # Username 
+    # Password = models.CharField(max_length=16, null=False, default="")
+    # Employee_ID = models.AutoField(primary_key=True, max_length=6, null=False)
+
+class Account(AbstractUser):
+    Employee_Type = models.CharField(max_length=255, null=False, default="-")
     
-    def getName(self):
-        return str(self.pk) + ": " + self.Name
+    def get_employeetype(self):
+        return self.Employee_Type
     
-    def getEmployee_Type(self):
-        return str(self.pk) + ": " + self.Employee_Type
-    
-    def getEmployee_ID(self):
-        return str(self.pk) + ": " + self.Employee_ID
-    
-    def getPassword(self):
-        return str(self.pk) + ": " + self.Password
-    
+
 class Customer(models.Model):
     Customer_ID = models.AutoField(primary_key=True, max_length=5, null=False)
     Customer_Type = models.CharField(max_length=255, null=False, default="")
     Company_Name = models.CharField(max_length=255, null=True, default="") 
     Primary_Contact_Name = models.CharField(max_length=255, null=False, default="")
-    Phone_Number = models.IntegerField(null=False)
+    Phone_Number = models.CharField(max_length=255, null=False, default="")
     Email = models.EmailField(max_length=254, null=True)
     objects = models.Manager()
 

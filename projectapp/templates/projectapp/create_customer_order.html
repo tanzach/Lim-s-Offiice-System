@@ -4,38 +4,42 @@
 {% block content %}
 
 <div class="container">
-    <div class="row m-5"> 
-        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+    <div class="row justify-content-center"> 
+        <div class="col-7 d-flex justify-content-center" style="height: 90px; margin-right: 20px;  background-color: #F5F5F5; border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"">
             <div class="row">
-                <div class="col-md-3"> 
+                <div class="col-md-3 d-flex align-items-center"> 
                     <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
                 </div>
-
-                <div class="col-md-9 my-auto">
+                <div class="col d-flex align-items-center">
                     <h3> Create Customer Order </h3>
                 </div>
             </div>
         </div>
             
-        <div class="col-4 m-auto" style="background-color: #EBF8EC; border-radius: 25px;"> 
+        <div class="col-4 d-flex justify-content-center" style="height: 90px; 
+        {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
+        {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
+        {% if employee_type == "Owner" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
+        border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;">
             <div class="row"> 
-                <div class="col-md-9 my-auto">
+                <div class="col-md-9">
                     <div class="row"> 
-                        <h3 class="text-end"> Hi! (User Name) </h3>
+                        <h4 class="text-end mt-3 mb-0"> {{ request.user.first_name }} </h4>
                     </div>
                     <div class="row"> 
-                        <h5 class="text-end"> Marketing/Office </h5>
+                        <h5 class="text-end mt-0 mb-1"> {{ employee_type }} </h5>
                     </div>
                 </div>                    
-                <div class="col-md-3">
+                <div class="col-md-3 my-auto">
                     <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row m-5"> 
-        <div class="card" style="width: 100%;">
+    <div class="row my-5"> 
+        <div class="card" style="width: 100%; background-color: #F5F5F5; border-radius: 14px;">
             <div class="card-body">
                 <div class="row">
                     <h4> Customer Order </h4>
@@ -44,13 +48,13 @@
                     <div class="col"> 
                         <div class="row"> 
                             <div class="col"> 
-                                <div class="form-group p-2">
+                                <div class="form-group my-2">
                                     <label class="form-label" for="CORN"> <strong> CO Ref. Num </strong> </label>
-                                    <input type="text" class="form-control" id="CORN" name="CORN" placeholder="(fills CORN)" readonly>
+                                    <input type="text" class="form-control" id="CORN" name="CORN" placeholder="Enter Customer Order Reference No." required>
                                 </div>
                             </div>
                             <div class="col"> 
-                                <div class="form-group p-2">
+                                <div class="form-group my-2">
                                     <label class="form-label" for="orderdate"> <strong> Order Date </strong> </label>
                                     <input type="date" class="form-control" id="orderdate" name="orderdate" placeholder="MM/DD/YY" required>
                                 </div>
@@ -58,20 +62,21 @@
                         </div>
 
                         <div class="row"> 
-                            <div class="form-group p-2">
+                            <div class="form-group my-2">
+                                
                                 <label class="form-label" for="employeetype"> <strong> Customer Name </strong> </label>
                                 <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here.." required>
-                                    <option selected> Customer Name </option>
-                                    <option value="Name1"> Name1 </option>
-                                    <option value="Name2"> Name2 </option>
-                                    <option value="Name3"> Name3 </option>
+                                {% for c in customers %}
+                                    <option value="{{c.Customer_ID}}"> {{c.Primary_Contact_Name}} </option>
+                                {% endfor %}
                                 </select>
+                                
                             </div>
                         </div>
                     </div>
 
                     <div class="col"> 
-                        <div class="form-group p-2"> 
+                        <div class="form-group my-2"> 
                             <label for="exampleFormControlTextarea1" class="form-label"> <strong> Note: </strong> </label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Enter note..."></textarea>
                         </div>
@@ -80,59 +85,66 @@
 
                 <div class="row"> 
                     <!-- Add Button with JavaScript Event Listener -->
-                    <div class="col p-2">
+                    <div class="col my-2">
                         <strong> Products </strong>
-                        <button class="btn btn-primary mx-2" id="addButton"> Add Form Field </button>
+                        <button class="btn btn-primary btn-sm mx-2" id="addButton"> + Add Form Field </button>
                     </div>
                     
                     <form action="" method="POST" id="myForm"> {% csrf_token %}
-                        <div class="form-field" id="field">
-                            <div class="row p-2"> 
-                                <div class="col"> 
-                                    <select class="form-select" id="productname" name="productname" placeholder="Product Name">
-                                        <option selected> Product Name </option>
-                                        <option value="Product1"> Product1 </option>
-                                        <option value="Product2"> Product2 </option>
+                        <div class="form-field d-flex justify-content-center" id="field">
+                            <div class="row mt-1"> 
+                                <div class="col-2" style="padding-right: 10px;"> 
+                                    <select class="form-select" 
+                                    id="productname" 
+                                    name="productname" 
+                                    placeholder="Product Name" 
+                                    {% for p in products %}
+                                    hx-get="{% url 'fill_product_unit' pk=p.Product_ID %}" 
+                                    {% endfor %}
+                                    hx-trigger="change" 
+                                    hx-target="#unit">
+                                    {% for p in products %}
+                                        <option value="{{p.Product_ID}}"> {{p.Product_Name}} </option>
+                                    {% endfor %}
                                     </select>
                                 </div>
-                                <div class="col">
-                                    <select class="form-select" id="unit" name="unit" placeholder="Unit">
-                                        <option selected> Unit </option>
-                                        <option value="Unit1"> Unit1 </option>
-                                        <option value="Unit2"> Unit2 </option>
-                                    </select>
-                                </div>
-                                <div class="col">
+                                
+                                
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    {% include 'partials/product_unit.html' %}
+                                </div> 
+
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
                                     <input type="text" class="form-control" inputmode="numeric" id="unitprice" name="unitprice" placeholder="Unit Price">
                                 </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="Quantity">
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="number" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="Quantity">
                                 </div>
-                                <div class="col">
+                                <div class="col-2" style="padding-left: 0; padding-right: 10px;">
                                     <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="Acquisition Code">
                                 </div>
-                                <div class="col"> 
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
                                     <input type="text" class="form-control" inputmode="numeric" id="discount" name="discount" placeholder="Discount">
                                 </div>
-                                <div class="col"> 
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
                                     <input type="text" class="form-control" inputmode="numeric" id="amount" name="amount" placeholder="Amount">
                                 </div>
-                                <div class="col"> 
-                                    <button class="btn btn-danger" id="deleteButton"> X </button>
+                                <div class="col" style="padding-left: 0; padding-right: 0;"> 
+                                    <button class="btn btn-danger" id="deleteButton"> Delete All </button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
 
-                <div class="row p-2"> 
+                <div class="row my-2"> 
                     <div class="col"> 
                         <input type="text" class="form-control" inputmode="numeric" id="totalprice" name="totalprice" placeholder="TOTAL PRICE">
                     </div>
                     <div class="col"> 
                         <div class="row float-end"> 
-                            <a class="btn btn-danger mx-1" id="cancelButton" style="width: 200px;" href="{% url 'view_orders' %}"> Cancel </a>
-                            <button class="btn btn-success mx-1" id="saveButton" style="width: 200px;"> Save </button>
+                            <a class="btn btn-danger mx-3" id="cancelButton" style="width: 200px;" href="{% url 'view_orders' %}"> Cancel </a>
+                            <button class="btn btn-success" id="saveButton" style="width: 200px;"> Save </button>
                         </div>
                     </div>
                 </div>
@@ -140,69 +152,58 @@
         </div>
 
     </div>
-
-    <script>
-        // JavaScript function to add form fields
-        var fieldCounter = 1;
-
-        function addFormField() {
-          // Create a new form field
-          
-          var newField = document.createElement("div");
-          newField.className = "form-field"+$(fieldCounter);
-          newField.innerHTML = `
-            <div class="row p-2">
-                <div class="col"> 
-                    <select class="form-select" id="productname${fieldCounter}" name="productname${fieldCounter}" placeholder="Product Name">
-                        <option selected> Product Name </option>
-                        <option value="Product1"> Product1 </option>
-                        <option value="Product2"> Product2 </option>
-                    </select>
-                </div>
-                <div class="col">
-                    <select class="form-select" id="unit${fieldCounter}" name="unit${fieldCounter}" placeholder="Unit">
-                        <option selected> Unit </option>
-                        <option value="Unit1"> Unit1 </option>
-                        <option value="Unit2"> Unit2 </option>
-                    </select>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" inputmode="numeric" id="unitprice${fieldCounter}" name="unitprice${fieldCounter}" placeholder="Unit Price">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" inputmode="numeric" id="quantity${fieldCounter}" name="quantity${fieldCounter}" placeholder="Quantity">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="acquisitioncode${fieldCounter}" name="acquisitioncode${fieldCounter}" placeholder="Acquisition Code">
-                </div>
-                <div class="col"> 
-                    <input type="text" class="form-control" inputmode="numeric" id="discount${fieldCounter}" name="discount${fieldCounter}" placeholder="Discount">
-                </div>
-                <div class="col"> 
-                    <input type="text" class="form-control" inputmode="numeric" id="amount${fieldCounter}" name="amount${fieldCounter}" placeholder="Amount">
-                </div>
-                <div class="col"> 
-                    <button class="btn btn-danger" id="deleteButton" onclick="deleteFormField(${fieldCounter})"> X </button>
-                </div>
-            </div>
-          `;
-
-          fieldCounter++;
+    <script> 
+        $(document).ready(function() {
+            $("#addButton").click(function(e){
+                e.preventDefault();
+                let fieldCount = $('.form-field').length + 1; // Calculate the field count dynamically
+                $("#myForm").append(`
+                    <div class="form-field d-flex justify-content-center" id="field${fieldCount}">
+                        <div class="row mt-1"> 
+                            <div class="col-2" style="padding-right: 10px;"> 
+                                <select class="form-select" id="productname${fieldCount}" name="productname${fieldCount}" placeholder="Product Name">
+                                    <option selected> Product Name </option>
+                                    <option value="Product1"> Product1 </option>
+                                    <option value="Product2"> Product2 </option>
+                                </select>
+                            </div>
+                            <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                <select class="form-select" id="unit${fieldCount}" name="unit${fieldCount}" placeholder="Unit">
+                                    <option selected> Unit </option>
+                                    <option value="Unit1"> Unit1 </option>
+                                    <option value="Unit2"> Unit2 </option>
+                                </select>
+                            </div>
+                            <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                <input type="text" class="form-control" inputmode="numeric" id="unitprice${fieldCount}" name="unitprice${fieldCount}" placeholder="Unit Price">
+                            </div>
+                            <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                <input type="number" class="form-control" inputmode="numeric" id="quantity${fieldCount}" name="quantity${fieldCount}" placeholder="Quantity">
+                            </div>
+                            <div class="col-2" style="padding-left: 0; padding-right: 10px;">
+                                <input type="text" class="form-control" id="acquisitioncode${fieldCount}" name="acquisitioncode${fieldCount}" placeholder="Acquisition Code">
+                            </div>
+                            <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                <input type="text" class="form-control" inputmode="numeric" id="discount${fieldCount}" name="discount${fieldCount}" placeholder="Discount">
+                            </div>
+                            <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                <input type="text" class="form-control" inputmode="numeric" id="amount${fieldCount}" name="amount${fieldCount}" placeholder="Amount">
+                            </div>
+                            <div class="col" style="padding-left: 0; padding-right: 0;"> 
+                                <button class="btn btn-danger deleteButton" data-fieldid="${fieldCount}"> Delete </button>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            });
         
-          // Append the new form field to the form
-          var form = document.getElementById('field');
-          form.insertAdjacentElement("afterend", newField)
-        }
-    
-        function deleteFormField(event) {
-        // Get the parent div of the clicked delete button
-            var formField = event.target.closest('.form-field');
-            formField.remove();
-        }
-
-        // Add event listener to the "Add Form Field" button
-        document.getElementById('addButton').addEventListener('click', addFormField);
-        //document.getElementById('deleteButton').addEventListener('click', deleteFormField);
+            $(document).on('click', '.deleteButton', function(e) {
+                e.preventDefault();
+                let fieldId = $(this).data('fieldid');
+                $("#field" + fieldId).remove();
+            });
+        });
     </script>
+        
 
 {% endblock %}

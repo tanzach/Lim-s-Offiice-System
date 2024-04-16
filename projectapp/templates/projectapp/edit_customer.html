@@ -18,56 +18,63 @@
 {% block content %}
 
 <div class="container">
-    <div class="row m-5"> 
-        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+    <div class="row justify-content-center"> 
+        <div class="col-7 d-flex justify-content-center" style="height: 90px; margin-right: 20px;  background-color: #F5F5F5; border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;">
             <div class="row">
-                <div class="col-md-3"> 
+                <div class="col-md-3 d-flex align-items-center"> 
                     <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
                 </div>
-
-                <div class="col-md-9 my-auto">
+                <div class="col d-flex align-items-center">
                     <h3> Edit Customer </h3>
                 </div>
             </div>
         </div>
             
-        <div class="col-4 m-auto" style="background-color: #EBF8EC; border-radius: 25px;"> 
+        <div class="col-4 d-flex justify-content-center" style="height: 90px; 
+        {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
+        {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
+        {% if employee_type == "Owner" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
+        border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
             <div class="row"> 
-                <div class="col-md-9 my-auto">
+                <div class="col-md-9">
                     <div class="row"> 
-                        <h3 class="text-end"> Hi! (User Name) </h3>
+                        <h4 class="text-end mt-3 mb-0"> {{ request.user.first_name }} </h4>
                     </div>
                     <div class="row"> 
-                        <h5 class="text-end"> Marketing/Office </h5>
+                        <h5 class="text-end mt-0 mb-1"> {{ employee_type }} </h5>
                     </div>
-                    
                 </div>                    
-                <div class="col-md-3">
+                <div class="col-md-3 my-auto">
                     <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="col-12 mt-5 d-flex justify-content-center">
-            <div class="card" style="width: 35rem;">
-                <div class="card-body">
+            <div class="card mb-5" style="width: 35rem; background-color: #F5F5F5; border-radius: 14px;">
+                <div class="card-body d-flex justify-content-center">
 
-                    {% for message in messages %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
                     <form method="POST" action="#"> {% csrf_token %}
+                    {% for c in customer %}
                         <div class="row mb-2"> 
-                            <div class="col text-center m-3">
+                            <div class="col my-3">
                                 <strong class="mx-2"> Customer Type </strong>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="Business" name="Individual" value="Business" checked>
+                                    <input class="form-check-input" type="radio" id="customertype" name="customertype" value="Business" {% if c.Customer_Type == "Business" %} checked {% endif %}>
                                     <label class="form-check-label" for="Business">Business</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="Individual" name="Individual" value="Individual">
+                                    <input class="form-check-input" type="radio" id="customertype" name="customertype" value="Individual" {% if c.Customer_Type == "Individual" %} checked {% endif %}>
                                     <label class="form-check-label" for="Individual">Individual</label>
                             </div>
                         </div>
@@ -76,7 +83,7 @@
                             <div class="col">
                                 <div class="form-group p-2">
                                     <label class="form-label" for="companyname"><b> Company Name </b></label>
-                                    <input type="text" class="form-control" id="companyname" name="companyname" placeholder="(fills company name)" readonly>
+                                    <input type="text" class="form-control" id="companyname" name="companyname" value="{{c.Company_Name}}" placeholder="{{c.Company_Name}}" required>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +92,7 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="contactname"><b> Primary Contact Name </b></label>
-                                    <input type="text" class="form-control" id="contactname" name="contactname" placeholder="(fills contactname)" readonly>
+                                    <input type="text" class="form-control" id="contactname" name="contactname" value="{{c.Primary_Contact_Name}}" placeholder="{{c.Primary_Contact_Name}}" required>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +101,7 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="email"><b> Email </b></label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="(fills email)" readonly>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{c.Email}}" placeholder="{{c.Email}}" required>
                                 </div>
                             </div>
                         </div>
@@ -103,25 +110,26 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="phonenumber"><b> Phone Number </b></label>
-                                    <input type="tel" class="form-control" id="phonenumber" name="phonenumber" placeholder="(fills phonenumber)" readonly>
+                                    <input type="tel" class="form-control" id="phonenumber" name="phonenumber" value="{{c.Phone_Number}}" placeholder="{{c.Phone_Number}}" required>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row align-items-center mt-4">
+                            <div class="col d-flex justify-content-center text-end"> 
+                                <a class="btn btn-warning" style="width: 150px;" href="{% url 'delete_customer' pk=c.pk %}"> Delete Customer </a>
+                            </div>
+                            <div class="col d-flex justify-content-center text-center"> 
+                                <a class="btn btn-danger" style="width: 150px;" href="{% url 'view_customers' %}"> Cancel </a>
+                            </div>
+                            <div class="col d-flex justify-content-center text-start"> 
+                                <button type="submit" class="btn btn-success" style="width: 150px;"> Save </button>
+                            </div>
+                        </div> 
+                    {% endfor %}
                     </form>      
                 </div>
             </div>
-
-            <div class="row mb-4">
-                <div class="col text-end"> 
-                    <button class="btn btn-warning" style="width: 150px;"> Delete Customer </button>
-                </div>
-                <div class="col text-center"> 
-                    <button onlick="history.back()" class="btn btn-danger" style="width: 150px;"> Cancel </button>
-                </div>
-                <div class="col text-start"> 
-                    <button type="submit" class="btn btn-success" style="width: 150px;"> Save </button>
-                </div>
-            </div> 
         </div>
     </div>
 </body>

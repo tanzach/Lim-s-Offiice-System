@@ -1,3 +1,5 @@
+{% load static %}
+
 <html lang="en">
     <head>
         <meta charset="UTC+8">
@@ -20,7 +22,10 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.js"></script>            
+        <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.js"></script>    
+        
+        <!-- HTMX -->
+        <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.js" integrity="sha384-l9bYT9SL4CAW0Hl7pAOpfRc18mys1b0wK4U8UtGnWOxPVbVMgrOdB+jyz/WY8Jue" crossorigin="anonymous"></script>
     
     </head>
     <body>
@@ -42,7 +47,7 @@
                                 <li><a class="dropdown-item" href="{% url 'view_inventory' %}">View Inventory</a></li>
                                 <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a></li>
                                 <li><a class="dropdown-item" href="{% url 'manage_account' %}">Manage Account</a></li>
-                                <li><a class="dropdown-item" href="{% url 'edit_account' %}">Edit Account</a></li>
+                                <li><a class="dropdown-item" href="">Edit Account</a></li>
                                 <li><a class="dropdown-item" href="{% url 'homepage' %}">Homepage</a></li>
                                 <li><a class="dropdown-item" href="{% url 'homepage_office' %}">Office Clerk - Homepage</a></li>
                             </ul>
@@ -60,7 +65,7 @@
                                 <li><a class="dropdown-item" href="{% url 'view_orders' %}">View Orders</a></li>
                                 <li><a class="dropdown-item" href="{% url 'view_customers' %}">View Customers</a></li>
                                 <li><a class="dropdown-item" href="{% url 'new_customer' %}">New Customer</a></li>
-                                <li><a class="dropdown-item" href="{% url 'edit_customer' %}">Edit Customer</a></li>
+                                <li><a class="dropdown-item" href="">Edit Customer</a></li>
                                 <li><a class="dropdown-item" href="{% url 'create_customer_order' %}">Create Customer Order</a></li>
                                 <li><a class="dropdown-item" href="{% url 'edit_order' %}">Edit Order</a></li>
                                 <li><a class="dropdown-item" href="{% url 'customer_order' %}">Customer Order</a></li>
@@ -79,12 +84,12 @@
                                 <li><a class="dropdown-item" href="{% url 'view_orders' %}">View Orders</a></li>
                                 <li><a class="dropdown-item" href="{% url 'view_inventory' %}">View Inventory</a></li>
                                 <li><a class="dropdown-item" href="{% url 'new_customer' %}">New Customer</a></li>
-                                <li><a class="dropdown-item" href="{% url 'edit_customer' %}">Edit Customer</a></li>
+                                <li><a class="dropdown-item" href="">Edit Customer</a></li>
                                 <li><a class="dropdown-item" href="{% url 'create_customer_order' %}">Create Customer Order</a></li>
                                 <li><a class="dropdown-item" href="{% url 'edit_order' %}">Edit Order</a></li>
                                 <li><a class="dropdown-item" href="{% url 'customer_order' %}">Customer Order</a></li>
                                 <li><a class="dropdown-item" href="{% url 'add_products' %}">Add Products</a></li>
-                                <li><a class="dropdown-item" href="{% url 'edit_inventory' %}">Edit Inventory</a></li>
+                                <li><a class="dropdown-item" href="">Edit Inventory</a></li>
 
                             </ul>
                         </li>
@@ -99,7 +104,7 @@
                                 <li><a class="dropdown-item" href="{% url 'homepage' %}">Homepage</a></li>
                                 <li><a class="dropdown-item" href="{% url 'add_products' %}">Add Products</a></li>
                                 <li><a class="dropdown-item" href="{% url 'view_inventory_warehouse' %}">View Inventory - Warehouse Staff</a></li>
-                                <li><a class="dropdown-item" href="{% url 'edit_inventory_warehouse' %}">Edit Inventory - Warehouse Staff</a></li>
+                                <li><a class="dropdown-item" href="">Edit Inventory - Warehouse Staff</a></li>
                                 <li><a class="dropdown-item" href="{% url 'view_orders_warehouse' %}">View Orders - Warehouse Staff</a></li>
                                 <li><a class="dropdown-item" href="{% url 'customer_order_warehouse' %}">Customer Order - Warehouse Staff</a></li>
                                 <li><a class="dropdown-item" href="{% url 'edit_order_warehouse' %}">Edit Order - Warehouse Staff</a></li>
@@ -127,17 +132,19 @@
 
         </script>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-center">
+        <!-- <div class="container">
+            
+        </div>   -->
+        
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                
 
                 {% block content %}
                 {% endblock %}
 
-                </div>
             </div>
-        </div>  
-        
+        </div>
    
     </body>
     

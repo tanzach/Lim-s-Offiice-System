@@ -4,93 +4,110 @@
 {% block content %}
 
 <div class="container">
-    <div class="row m-5"> 
-        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+    <div class="row justify-content-center"> 
+        <div class="col-7 d-flex justify-content-center" style="height: 90px; margin-right: 20px;  background-color: #F5F5F5; border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"">
             <div class="row">
-                <div class="col-md-3"> 
+                <div class="col-md-3 d-flex align-items-center"> 
                     <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
                 </div>
 
-                <div class="col-md-9 my-auto">
+                <div class="col-md-9 d-flex align-items-center my-auto">
                     <h3> Edit Inventory </h3>
                 </div>
             </div>
         </div>
             
-        <div class="col-4 m-auto" style="background-color: #D9EFFB; border-radius: 25px;"> 
+        <div class="col-4 d-flex justify-content-center" style="height: 90px; 
+        {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
+        {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
+        {% if employee_type == "Owner" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
+        border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
             <div class="row"> 
-                <div class="col-md-9 my-auto">
+                <div class="col-md-9">
                     <div class="row"> 
-                        <h3 class="text-end"> Hi! (User Name) </h3>
+                        <h4 class="text-end mt-3 mb-0"> {{ request.user.first_name }} </h4>
                     </div>
                     <div class="row"> 
-                        <h5 class="text-end"> Warehouse Staff </h5>
+                        <h5 class="text-end mt-0 mb-1"> {{ employee_type }} </h5>
                     </div>
+                    
                 </div>                    
-                <div class="col-md-3">
+                <div class="col-md-3 my-auto">
                     <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="row m-5"> 
         <div class="card" style="width: 100%;">
             <div class="card-body">
-                <div class="row">
-                    <h4> Edit Inventory </h4>
-                </div>
-                <div class="row"> 
-                    <div class="col"> 
-                        <div class="row"> 
-                            <div class="form-group p-2">
-                                <label class="form-label" for="orderdate"> <strong> Date </strong> </label>
-                                <input type="date" class="form-control" id="orderdate" name="orderdate" placeholder="MM/DD/YY">
+                <form action="" method="POST" id="myForm"> {% csrf_token %}
+                    <div class="row">
+                        <h4> Edit Inventory </h4>
+                    </div>
+                    <div class="row"> 
+                        <div class="col"> 
+                            <div class="row"> 
+                                <div class="col"> 
+                                    <div class="form-group py-2">
+                                        <label class="form-label" for="dateupdated"> <strong> Date </strong> </label>
+                                        <input type="date" class="form-control" id="dateupdated" name="dateupdated" value="{{e.Date_Updated|date:'Y-m-d'}}" placeholder="{{e.Date_Updated}}" required>
+                                    </div>
+                                </div>
+                                <div class="col"> 
+                                    <div class="form-group py-2">
+                                        <label class="form-label" for="CORN"> <strong> Supplier Name </strong> </label>
+                                        <input type="text" class="form-control" id="suppliername" name="suppliername" value="{{e.Supplier}}" placeholder="{{e.Supplier}}" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row"> 
-                    <div class="col p-2">
-                        <strong> Products </strong>
-                    </div>
-                    
-                    <form action="" method="POST" id="myForm"> {% csrf_token %}
-                        <div class="form-field" id="field">
+                    <div class="row"> 
+                        <!-- Add Button with JavaScript Event Listener -->
+                        <div class="col p-2">
+                            <strong> Products </strong>
+                        </div>
+
+                        <div class="form-field" id="">
                             <div class="row p-2"> 
-                                <div class="col"> 
-                                    <select class="form-select" id="productid" name="productid" placeholder="(fills Product ID)" readonly>
-                                        <option selected> Product ID </option>
-                                        <option value="Product1"> Product1 </option>
-                                        <option value="Product2"> Product2 </option>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                    <input type="text" class="form-control" id="productid" name="productid" value="{{e.Product_ID}}" placeholder="{{e.Product_ID}}" required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="text" class="form-control" id="productname" name="productname" value="{{e.Product_Name}}" placeholder="{{e.Product_Name}}" required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                    <input type="number" class="form-control" inputmode="numeric" id="quantity" name="quantity" min="0" step="1" value="{{e.Current_Quantity}}" placeholder="{{e.Current_Quantity}}" required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                    <input type="number" class="form-control" inputmode="numeric" id="addquantity" name="addquantity" min="0" step="1" placeholder="Quantity to be added" required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <select class="form-select" id="unit" name="unit" placeholder="Unit" required>
+                                        <option value="Unit" {% if e.Unit == "Unit" %} selected {% endif %}> Unit </option>
+                                        <option value="Pieces" {% if e.Unit == "Pieces" %} selected {% endif %}> Pieces </option>
+                                        <option value="Boxes" {% if e.Unit == "Boxes" %} selected {% endif %}> Boxes </option>
+                                        <option value="Reams" {% if e.Unit == "Reams" %} selected {% endif %}> Reams </option>
+                                        <option value="Sheets" {% if e.Unit == "Sheets" %} selected {% endif %}> Sheets </option>
                                     </select>
                                 </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="productname" name="productname" placeholder="(fills Product Name)" readonly>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" value="{{e.Acquisition_Code}}" placeholder="{{e.Acquisition_Code}}" required>
                                 </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" inputmode="numeric" id="currentquantity" name="currentquantity" placeholder="(fills Current Quantity)" readonly>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" inputmode="numeric" id="quantitytobeadded" name="quantitytobeadded" placeholder="Quantity to be added">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="(fills Unit)" readonly>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="(fills Acquisition Code)" readonly>
-                                </div>
-                                <div class="col"> 
-                                    <input type="text" class="form-control" id="warehouselocation" name="warehouselocation" placeholder="(fills Warehouse location)" readonly>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="text" class="form-control" id="warehouselocation" name="warehouselocation" value="{{e.Warehouse_Location}}" placeholder="{{e.Warehouse_Location}}" required>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
 
                 <div class="row justify-content-center m-5"> 
-                    <button class="btn btn-danger mx-2" id="cancelButton" style="width: 200px;"> Cancel </button>
+                    <a class="btn btn-danger mx-2" id="cancelButton" style="width: 200px;" href="{% url 'view_inventory_warehouse' %}"> Cancel </a>
                     <button class="btn btn-success mx-2" id="saveButton" style="width: 200px;"> Save </button>
                 </div>
             </div>

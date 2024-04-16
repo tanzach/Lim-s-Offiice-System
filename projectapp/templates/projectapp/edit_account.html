@@ -1,58 +1,43 @@
+{% extends 'projectapp/base.html' %}
 {% load static %}
-<html>
-<head> 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static '/bootstrap/css/custom.css' %}">
 
-    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-</head>
-<body> 
+{% block content %}
     <div class="container"> 
-
-        <div class="row"> 
-            <div class="col"> 
-                <a href="{% url 'login' %}"> Back to Login Page </a> 
-            </div>
-        </div>
-
-        <div class="col-md-12 my-5 d-flex justify-content-center">
+        <div class="col-md-12 my-3 d-flex justify-content-center">
             <div class="card" style="width: 35rem;">
                 <div class="card-body">
 
-                    {% for message in messages %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
                     <div class="text-center"> 
                         <img src="{% static 'projectapp/lims.png' %}" style="width: 350px;" alt="Lim's Company Logo"> 
                         <h3 class="mt-1 mb-5 pb-1"> Sales and Inventory System </h3>
                     </div>
 
+                    {% for a in account %}
                     <form method="POST" action="#"> {% csrf_token %}
                         <div class="row"> 
                             <div class="col">
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="employeeid"> <strong> Employee ID </strong> </label>
-                                    <input type="text" class="form-control" id="employeeid" name="employeeid" placeholder="(fills employeeid)" readonly>
+                                    <label class="form-label" for="employeeid"><strong> Employee ID </strong></label>
+                                    <input type="text" class="form-control" id="employeeid" name="employeeid" value="{{a.username}}" placeholder="{{a.username}}" readonly>
                                 </div>
                             </div>
     
                             <div class="col">
                                 <div class="form-group p-2">
                                     <label class="form-label" for="employeetype"> <strong>  Employee Type </strong> </label>
-                                    <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here.." readonly>
-                                        <option selected> (fills employeetype) </option>
-                                        <option value="Owner"> Owner </option>
-                                        <option value="Marketing Staff"> Marketing Staff </option>
-                                        <option value="Office Clerk"> Office Clerk </option>
-                                        <option value="Warehouse Staff"> Warehouse Staff </option>
+                                    <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here..">
+                                        <option value="Owner" {% if a.Employee_Type == "Owner" %} selected {% endif %}> Owner </option>
+                                        <option value="Marketing Staff" {% if a.Employee_Type == "Marketing Staff" %} selected {% endif %}> Marketing Staff </option>
+                                        <option value="Office Clerk" {% if a.Employee_Type == "Office Clerk" %} selected {% endif %}> Office Clerk </option>
+                                        <option value="Warehouse Staff" {% if a.Employee_Type == "Warehouse Staff" %} selected {% endif %}> Warehouse Staff </option>
                                     </select>
                                 </div>
                             </div>
@@ -61,8 +46,23 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="name"> <strong>  Name </strong> </label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="(fills name)" readonly>
+                                    <label class="form-label" for="firstname"> <strong>  First Name </strong> </label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{a.first_name}}" placeholder="{{a.first_name}}">
+                                </div>
+                            </div>
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="lastname"> <strong>  Last Name </strong> </label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{a.last_name}}" placeholder="{{a.last_name}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="email"> <strong>  Email </strong> </label>
+                                    <input type="text" class="form-control" id="email" name="email" value="{{a.email}}" placeholder="{{a.email}}">
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="oldpassword"> <strong> Old Password </strong> </label>
-                                    <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="(fills oldpassword)" readonly>
+                                    <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Enter your old password">
                                 </div>
                             </div>
                         </div>
@@ -79,15 +79,24 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="newpassword"> <strong>  New Password </strong> </label>
-                                    <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
+                                    <label class="form-label" for="newpassword1"> <strong>  New Password </strong> </label>
+                                    <input type="password" class="form-control" id="newpassword1" name="newpassword1" placeholder="Enter New Password" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="newpassword2"> <strong>  Re-Type New Password </strong> </label>
+                                    <input type="password" class="form-control" id="newpassword2" name="newpassword2" placeholder="Retype New Password" required>
                                 </div>
                             </div>
                         </div>
         
                         <div class="row my-4">
                             <div class="col-6 text-center"> 
-                                <button onlick="" class="mt-3 btn btn-danger" style="width: 100%;"> Cancel </button>
+                                <a class="mt-3 btn btn-danger" style="width: 100%;" href="{% url 'manage_account' %}"> Cancel </a>
                             </div>
                             <div class="col-6 text-center"> 
                                 <button type="submit" class="mt-3 btn btn-success" style="width: 100%;"> Save </button>
@@ -95,15 +104,16 @@
                         </div>
                         <div class="row my-4"> 
                             <div class="col-6 mx-auto text-center"> 
-                                <button class="mt-3 btn btn-warning" style="width:100%;"> Delete Account </button>
+                                <a class="mt-3 btn btn-warning" style="width:100%;" href=""> Delete Account </a>
                             </div>
                         </div>
                     </form>        
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+    {% endblock %}
 
 

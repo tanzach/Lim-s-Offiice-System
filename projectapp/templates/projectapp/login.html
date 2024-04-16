@@ -13,12 +13,14 @@
 
     <div class="card p-4 d-flex">
 
-        {% for message in messages %}
-            <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="text-center"> 
             <img src="{% static 'projectapp/lims.png' %}" style="width: 350px;" alt="Lim's Company Logo"> 
             <h3 class="mt-1 mb-5 pb-1"> Sales and Inventory System </h3>

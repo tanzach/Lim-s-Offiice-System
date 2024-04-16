@@ -1,19 +1,9 @@
+{% extends 'projectapp/base.html' %}
+
 {% load static %}
-<html>
-<head> 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static '/bootstrap/css/custom.css' %}">
 
-    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-</head>
-<body> 
+{% block content %}
     <div class="container"> 
-
         <div class="row"> 
             <div class="col"> 
                 <a href="{% url 'login' %}"> Back to Login Page </a> 
@@ -24,11 +14,13 @@
             <div class="card" style="width: 35rem;">
                 <div class="card-body">
 
-                    {% for message in messages %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
                     <div class="text-center"> 
                         <img src="{% static 'projectapp/lims.png' %}" style="width: 350px;" alt="Lim's Company Logo"> 
@@ -48,7 +40,6 @@
                                 <div class="form-group p-2">
                                     <label class="form-label" for="employeetype"> <strong> Employee Type </strong> </label>
                                     <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here.." required>
-                                        <option selected> Select... </option>
                                         <option value="Owner"> Owner </option>
                                         <option value="Marketing Staff"> Marketing Staff </option>
                                         <option value="Office Clerk"> Office Clerk </option>
@@ -61,12 +52,30 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
-                                    <label class="form-label" for="name"> <strong> Name </strong> </label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Last name, First name Middle Initial" required>
+                                    <label class="form-label" for="firstname"> <strong> First Name </strong> </label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your First Name" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="lastname"> <strong> Last Name </strong> </label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your Last name" required>
                                 </div>
                             </div>
                         </div>
                         
+                        <div class="row"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="email"> <strong> Email </strong> </label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your Email Address">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group p-2">
@@ -90,7 +99,7 @@
                                 <button type="submit" class="mt-3 btn btn-success" style="width: 100%;"> Register </button>
                             </div>
                             <div class="col-6 text-center"> 
-                                <button onlick="history.back()" class="mt-3 btn btn-danger" style="width: 100%;"> Cancel </button>
+                                <a class="mt-3 btn btn-danger" style="width: 100%;" href="{% url 'manage_account' %}"> Cancel </a>
                             </div>
                         </div>
                     </form>       
@@ -99,7 +108,7 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+{% endblock %}
 
 

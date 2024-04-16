@@ -4,38 +4,42 @@
 {% block content %}
 
 <div class="container">
-    <div class="row m-5"> 
-        <div class="col-8 m-auto" style="background-color: #C5C5C5; border-radius: 25px;">
+    <div class="row justify-content-center"> 
+        <div class="col-7 d-flex justify-content-center" style="height: 90px; margin-right: 20px;  background-color: #F5F5F5; border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"">
             <div class="row">
-                <div class="col-md-3"> 
+                <div class="col-md-3 d-flex align-items-center"> 
                     <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
                 </div>
-
-                <div class="col-md-9 my-auto">
+                <div class="col-md-9 d-flex align-items-center my-auto">
                     <h3> Customer Order </h3>
                 </div>
             </div>
         </div>
             
-        <div class="col-4 m-auto" style="background-color: #B2000033; border-radius: 25px;"> 
+        <div class="col-4 d-flex justify-content-center" style="height: 90px; 
+        {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
+        {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
+        {% if employee_type == "Owner" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
+        border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
             <div class="row"> 
-                <div class="col-md-9 my-auto">
+                <div class="col-md-9">
                     <div class="row"> 
-                        <h3 class="text-end"> Hi! (User Name) </h3>
+                        <h4 class="text-end mt-3 mb-0"> {{ request.user.first_name }} </h4>
                     </div>
                     <div class="row"> 
-                        <h5 class="text-end"> Owner </h5>
+                        <h5 class="text-end mt-0 mb-1"> {{ employee_type }} </h5>
                     </div>
+                    
                 </div>                    
-                <div class="col-md-3">
+                <div class="col-md-3 my-auto">
                     <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
                 </div>
             </div>
         </div>
     </div>
 
-    
-    <div class="row"> 
+    <div class="row mt-5"> 
         <div class="col-8 rounded border border-5">
             <div class="row"> 
                 <div class="col"> 
