@@ -2,7 +2,11 @@
 
 ### Create a virtual environment
 - python -m venv (env name) 
-  - ex. python -m venv msys42 
+  - ex. python -m venv msys42
+ 
+### Activate virtual environment
+- Windows: (env name)\Scripts\activate
+- Mac: (env name)\bin\activate 
 
 ### Install Django and MySQL
 - pip install django
