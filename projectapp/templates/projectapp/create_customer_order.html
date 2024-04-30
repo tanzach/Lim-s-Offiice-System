@@ -49,13 +49,13 @@
                         <div class="row"> 
                             <div class="col"> 
                                 <div class="form-group my-2">
-                                    <label class="form-label" for="CORN"> <strong> CO Ref. Num </strong> </label>
+                                    <label class="form-label" for="CORN"> <strong> CO Ref. Num <span style="color: red;">*</span> </strong> </label>
                                     <input type="text" class="form-control" id="CORN" name="CORN" placeholder="Enter Customer Order Reference No." required>
                                 </div>
                             </div>
                             <div class="col"> 
                                 <div class="form-group my-2">
-                                    <label class="form-label" for="orderdate"> <strong> Order Date </strong> </label>
+                                    <label class="form-label" for="orderdate"> <strong> Order Date <span style="color: red;">*</span> </strong> </label>
                                     <input type="date" class="form-control" id="orderdate" name="orderdate" placeholder="MM/DD/YY" required>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                         <div class="row"> 
                             <div class="form-group my-2">
                                 
-                                <label class="form-label" for="employeetype"> <strong> Customer Name </strong> </label>
+                                <label class="form-label" for="employeetype"> <strong> Customer Name <span style="color: red;">*</span> </strong> </label>
                                 <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here.." required>
                                 {% for c in customers %}
                                     <option value="{{c.Customer_ID}}"> {{c.Primary_Contact_Name}} </option>
@@ -86,7 +86,7 @@
                 <div class="row"> 
                     <!-- Add Button with JavaScript Event Listener -->
                     <div class="col my-2">
-                        <strong> Products </strong>
+                        <strong> Products <span style="color: red;">*</span> </strong>
                         <button class="btn btn-primary btn-sm mx-2" id="addButton"> + Add Form Field </button>
                     </div>
                     
@@ -94,34 +94,27 @@
                         <div class="form-field d-flex justify-content-center" id="field">
                             <div class="row mt-1"> 
                                 <div class="col-2" style="padding-right: 10px;"> 
-                                    <select class="form-select" 
-                                    id="productname" 
-                                    name="productname" 
-                                    placeholder="Product Name" 
+                                    <select class="form-select" id="productname" name="productname" placeholder="Product Name" onchange="fill_product()" required>
+                                    
                                     {% for p in products %}
-                                    hx-get="{% url 'fill_product_unit' pk=p.Product_ID %}" 
+                                        <option value="{{p.Product_ID}}" data-unit="{{p.Unit}}" data-price="{{p.Unit_Price}}" data-aqcode="{{p.Acquisition_Code}}"> {{p.Product_Name}} </option>
                                     {% endfor %}
-                                    hx-trigger="change" 
-                                    hx-target="#unit">
-                                    {% for p in products %}
-                                        <option value="{{p.Product_ID}}"> {{p.Product_Name}} </option>
-                                    {% endfor %}
+
                                     </select>
                                 </div>
                                 
-                                
                                 <div class="col" style="padding-left: 0; padding-right: 10px;">
-                                    {% include 'partials/product_unit.html' %}
-                                </div> 
+                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" readonly>
+                                </div>
 
                                 <div class="col" style="padding-left: 0; padding-right: 10px;">
                                     <input type="text" class="form-control" inputmode="numeric" id="unitprice" name="unitprice" placeholder="Unit Price">
                                 </div>
                                 <div class="col" style="padding-left: 0; padding-right: 10px;">
-                                    <input type="number" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="Quantity">
+                                    <input type="number" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="Quantity" pattern="[0-9]+" title="Please enter a whole number">
                                 </div>
                                 <div class="col-2" style="padding-left: 0; padding-right: 10px;">
-                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="Acquisition Code">
+                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="Acquisition Code" readonly>
                                 </div>
                                 <div class="col" style="padding-left: 0; padding-right: 10px;"> 
                                     <input type="text" class="form-control" inputmode="numeric" id="discount" name="discount" placeholder="Discount">
@@ -153,6 +146,17 @@
 
     </div>
     <script> 
+        function fill_product() {
+            var selectElement = document.getElementById("productname");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var unit = selectedOption.getAttribute("data-unit");
+            var unitprice = selectedOption.getAttribute("data-price");
+            var aqcode = selectedOption.getAttribute("data-aqcode");
+            document.getElementById("unit").value = unit;
+            document.getElementById("acquisitioncode").value = aqcode;
+            document.getElementById("unitprice").value = unitprice;
+        }
+
         $(document).ready(function() {
             $("#addButton").click(function(e){
                 e.preventDefault();
@@ -161,12 +165,18 @@
                     <div class="form-field d-flex justify-content-center" id="field${fieldCount}">
                         <div class="row mt-1"> 
                             <div class="col-2" style="padding-right: 10px;"> 
-                                <select class="form-select" id="productname${fieldCount}" name="productname${fieldCount}" placeholder="Product Name">
-                                    <option selected> Product Name </option>
-                                    <option value="Product1"> Product1 </option>
-                                    <option value="Product2"> Product2 </option>
-                                </select>
-                            </div>
+                                    <select class="form-select" 
+                                    id="productname${fieldCount}" 
+                                    name="productname${fieldCount}" 
+                                    placeholder="Product Name" 
+                                    hx-get="{% url 'fill_product_unit' %}" 
+                                    hx-trigger="change" 
+                                    hx-target="#unit">
+                                    {% for p in products %}
+                                        <option value="{{p.Product_ID}}"> {{p.Product_Name}} </option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
                             <div class="col" style="padding-left: 0; padding-right: 10px;">
                                 <select class="form-select" id="unit${fieldCount}" name="unit${fieldCount}" placeholder="Unit">
                                     <option selected> Unit </option>

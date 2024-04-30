@@ -17,6 +17,7 @@ def signup(request):
         employee_type = request.POST.get('employeetype')
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirmpassword')
 
@@ -26,9 +27,9 @@ def signup(request):
             return redirect('signup')
         else: 
             if password == confirm_password: 
-                Account.objects.create_user(username=employee_id, Employee_Type=employee_type, first_name=firstname, last_name=lastname, password=password)
+                Account.objects.create_user(username=employee_id, Employee_Type=employee_type, first_name=firstname, last_name=lastname, Email=email, password=password)
                 messages.success(request, "Account created successfully.", extra_tags='alert-success')
-                return redirect('login')
+                return redirect('manage_account')
             else: 
                 messages.error(request, "Passwords do not match.", extra_tags='alert-danger')
                 return redirect('signup')
@@ -263,10 +264,11 @@ def edit_inventory(request, pk):
                 quantity = request.POST.get('quantity')
                 added_quantity = request.POST.get('addquantity')
                 unit = request.POST.get('unit')
+                unit_price = request.POST.get('unitprice')
                 ac_code = request.POST.get('acquisitioncode')
                 location = request.POST.get('warehouselocation')
                 total_quantity = int(quantity) + int(added_quantity)
-                Inventory.objects.filter(pk=pk).update(Product_ID=product_id, Product_Name=product_name, Date_Updated=date_updated, Current_Quantity=total_quantity, Unit=unit, Acquisition_Code=ac_code, Warehouse_Location=location, Supplier=supplier_name)
+                Inventory.objects.filter(pk=pk).update(Product_ID=product_id, Product_Name=product_name, Date_Updated=date_updated, Current_Quantity=total_quantity, Unit=unit, Unit_Price=unit_price, Acquisition_Code=ac_code, Warehouse_Location=location, Supplier=supplier_name)
                 return redirect('view_inventory')
             else: 
                 return render(request, 'projectapp/edit_inventory.html', {'edit_inventory':edit_inventory, 'employee_type':employee_type})
@@ -341,10 +343,10 @@ def view_orders_owner(request):
 
 
 # HTMX Functions 
-def fill_product_unit(request, pk):
-    pk = request.GET.get('productname')
-    product_unit = Inventory.objects.filter(pk=pk)
-    print(pk)
+def fill_product_unit(request):
+    product = request.GET.get('productname')
+    product_unit = Inventory.objects.filter(pk=product)
+    print(product)
     print(product_unit)
-    return render(request, 'partials/product_unit.html', {'product_unit':product_unit})
+    return render(request, 'projectapp/product_unit.html', {'product_unit':product_unit})
     

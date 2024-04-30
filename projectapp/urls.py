@@ -53,7 +53,7 @@ urlpatterns = [
     path('view_orders_owner', views.view_orders_owner, name='view_orders_owner'),
 
     # HTMX 
-    path('fill_product_unit/<int:pk>/', views.fill_product_unit, name='fill_product_unit')
+    path('fill_product_unit', views.fill_product_unit, name='fill_product_unit')
 
 
 ]
