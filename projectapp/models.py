@@ -36,30 +36,34 @@ class Inventory(models.Model):
     Supplier = models.CharField(max_length=255, null=False)
     objects = models.Manager()
 
-class Product_Price(models.Model):
-    Product_ID = models.CharField(max_length=6, primary_key=True, null=False)
-    Customer_ID = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    Discount = models.IntegerField(max_length=3, null=False)
-    objects = models.Manager()
-
 class Order(models.Model): 
     Order_Reference_Number = models.AutoField(max_length=7, primary_key=True, null=False)
     Customer_ID = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    Product_ID = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    # Product_ID = models.ForeignKey(Inventory, on_delete=models.CASCADE)
     Order_Date = models.DateField(null=False)
     Customer_Name = models.CharField(max_length=255, null=False) 
-    Order_Status = models.CharField(max_length=255, null=False)
-    Payment_Status = models.CharField(max_length=255, null=False)
+    Order_Status = models.CharField(max_length=255, null=False, default="Pending Payment")
+    Payment_Status = models.CharField(max_length=255, null=False, default="Pending")
     Order_Quantity = models.IntegerField(null=False)
-    Revised_Order_Quantity = models.IntegerField()
-    Discount = models.IntegerField()
-    Amount = models.FloatField(null=False)
+    Revised_Order_Quantity = models.IntegerField(null=True)
+    # Discount = models.FloatField(null=True, default=0)
+    # Amount = models.FloatField(null=False)
     Total_Amount = models.FloatField(null=False)
     Note = models.CharField(max_length=255)
+    objects = models.Manager()
+
+class Discount(models.Model):
+    Discount_ID = models.AutoField(primary_key=True)
+    Product_ID = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    Customer_ID = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    Order_Reference_Number = models.ForeignKey(Order, on_delete=models.CASCADE)
+    Discount = models.FloatField(null=False, default=0)
     objects = models.Manager()
 
 class Order_Inventory(models.Model):
     Order_Reference_Number = models.ForeignKey(Order, on_delete=models.CASCADE)
     Product_ID = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    Order_Quantity = models.CharField(max_length=255, null=False)
+    Product_Quantity = models.IntegerField(null=False, default=0)
+    Revised_Order_Quantity = models.IntegerField(null=True, default=0)
+    Amount = models.FloatField(null=False, default=0)
     objects = models.Manager()

@@ -34,7 +34,7 @@
                                 <div class="form-group p-2">
                                     <label class="form-label" for="employeetype"> <strong>  Employee Type </strong> </label>
                                     <select class="form-select" id="employeetype" name="employeetype" placeholder="Choose here..">
-                                        <option value="Owner" {% if a.Employee_Type == "Owner" %} selected {% endif %}> Owner </option>
+                                        <option value="Owner" {% if a.Employee_Type == "CEO" %} selected {% endif %}> CEO </option>
                                         <option value="Marketing Staff" {% if a.Employee_Type == "Marketing Staff" %} selected {% endif %}> Marketing Staff </option>
                                         <option value="Office Clerk" {% if a.Employee_Type == "Office Clerk" %} selected {% endif %}> Office Clerk </option>
                                         <option value="Warehouse Staff" {% if a.Employee_Type == "Warehouse Staff" %} selected {% endif %}> Warehouse Staff </option>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="row my-4"> 
                             <div class="col-6 mx-auto text-center"> 
-                                <a class="mt-3 btn btn-warning" style="width:100%;" href=""> Delete Account </a>
+                                <a class="mt-3 btn btn-warning" style="width:100%;" href="{% url 'delete_account' pk=a.pk %}"> Delete Account </a>
                             </div>
                         </div>
                     </form>        

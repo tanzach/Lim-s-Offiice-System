@@ -33,7 +33,7 @@
         <div class="col-4 d-flex justify-content-center" style="height: 90px; 
         {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
         {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
-        {% if employee_type == "Owner" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "CEO" %} background-color: #B2000033; {% endif %}
         {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
         border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
             <div class="row"> 
@@ -64,8 +64,8 @@
                     </div>
                     {% endif %}
 
-                    <form method="POST" action="#"> {% csrf_token %}
                     {% for c in customer %}
+                    <form id="editcustomer" method="POST" action="{% url 'edit_customer' pk=c.pk %}"> {% csrf_token %}
                         <div class="row mb-2"> 
                             <div class="col my-3">
                                 <strong class="mx-2"> Customer Type </strong>
@@ -83,7 +83,7 @@
                             <div class="col">
                                 <div class="form-group p-2">
                                     <label class="form-label" for="companyname"><b> Company Name </b></label>
-                                    <input type="text" class="form-control" id="companyname" name="companyname" value="{{c.Company_Name}}" placeholder="{{c.Company_Name}}" required>
+                                    <input type="text" class="form-control" id="companyname" name="companyname" value="{{c.Company_Name}}" placeholder="{{c.Company_Name}}" data-parsley-trigger="input" required>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="contactname"><b> Primary Contact Name </b></label>
-                                    <input type="text" class="form-control" id="contactname" name="contactname" value="{{c.Primary_Contact_Name}}" placeholder="{{c.Primary_Contact_Name}}" required>
+                                    <input type="text" class="form-control" id="contactname" name="contactname" value="{{c.Primary_Contact_Name}}" placeholder="{{c.Primary_Contact_Name}}" data-parsley-trigger="input" required>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="email"><b> Email </b></label>
-                                    <input type="email" class="form-control" id="email" name="email" value="{{c.Email}}" placeholder="{{c.Email}}" required>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{c.Email}}" placeholder="{{c.Email}}" data-parsley-type="email" data-parsley-trigger="input" required>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                             <div class="col"> 
                                 <div class="form-group p-2">
                                     <label class="form-label" for="phonenumber"><b> Phone Number </b></label>
-                                    <input type="tel" class="form-control" id="phonenumber" name="phonenumber" value="{{c.Phone_Number}}" placeholder="{{c.Phone_Number}}" required>
+                                    <input type="tel" class="form-control" id="phonenumber" name="phonenumber" value="{{c.Phone_Number}}" placeholder="{{c.Phone_Number}}" data-parsley-pattern="\d{11}" data-parsley-trigger="input" data-parsley-error-message="Please enter a valid 11-digit phone number" required>
                                 </div>
                             </div>
                         </div>
@@ -126,13 +126,23 @@
                                 <button type="submit" class="btn btn-success" style="width: 150px;"> Save </button>
                             </div>
                         </div> 
-                    {% endfor %}
                     </form>      
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+<script> 
+
+    $(document).ready(function() {
+        console.log('Parsely initialized');
+        $('#editcustomer').parsley();
+    });
+
+</script>
+
 </html>
 
 {% endblock %}

@@ -19,7 +19,7 @@
         <div class="col-4 d-flex justify-content-center" style="height: 90px; 
         {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
         {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
-        {% if employee_type == "Owner" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "CEO" %} background-color: #B2000033; {% endif %}
         {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
         border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
             <div class="row"> 
@@ -38,174 +38,325 @@
         </div>
     </div>
 
+    {% if messages %}
+    <div class="messages mt-4">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="row my-5"> 
         <div class="card" style="width: 100%; background-color: #F5F5F5; border-radius: 14px;">
             <div class="card-body">
-                <div class="row">
-                    <h4> Customer Order </h4>
-                </div>
-                <div class="row"> 
-                    <div class="col"> 
-                        <div class="row"> 
-                            <div class="col"> 
-                                <div class="form-group my-2">
-                                    <label class="form-label" for="CORN"> <strong> CO Ref. Num </strong> </label>
-                                    <input type="text" class="form-control" id="CORN" name="CORN" placeholder="(fills CORN)" readonly>
+                <form action="{% url 'create_customer_order' %}" method="POST" id="myForm"> {% csrf_token %}
+
+                    <div class="row">
+                        <h4> Customer Order </h4>
+                    </div>
+                    <div class="row"> 
+                        <div class="col"> 
+                            <div class="row"> 
+                                <div class="col"> 
+                                    <div class="form-group my-2">
+                                        <label class="form-label" for="orderdate"> <strong> Order Date <span style="color: red;">*</span> </strong> </label>
+                                        <input type="date" class="form-control" id="orderdate" name="orderdate" placeholder="{{order.Order_Date|date:'Y-m-d'}}" value="{{order.Order_Date|date:'Y-m-d'}}" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col"> 
+
+                            <div class="row"> 
                                 <div class="form-group my-2">
-                                    <label class="form-label" for="orderdate"> <strong> Order Date </strong> </label>
-                                    <input type="date" class="form-control" id="orderdate" name="orderdate" placeholder="(fills Date)" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row"> 
-                            <div class="form-group my-2">
-                                <label class="form-label" for="employeetype"> <strong> Customer Name </strong> </label>
-                                <select class="form-select" id="employeetype" name="employeetype" placeholder="(fills Name)" readonly>
-                                    <option selected> Customer Name </option>
-                                    <option value="Name1"> Name1 </option>
-                                    <option value="Name2"> Name2 </option>
-                                    <option value="Name3"> Name3 </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col"> 
-                        <div class="form-group my-2"> 
-                            <label for="exampleFormControlTextarea1" class="form-label"> <strong> Note: </strong> </label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="(fills Note)" readonly></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row"> 
-                    <!-- Add Button with JavaScript Event Listener -->
-                    <div class="col my-2">
-                        <strong> Products </strong>
-                        <button class="btn btn-primary btn-sm mx-2" id="addButton"> + Add Form Field </button>
-                    </div>
-                    
-                    <form action="" method="POST" id="myForm"> {% csrf_token %}
-                        <div class="form-field d-flex justify-content-center" id="field">
-                            <div class="row mt-1"> 
-                                <div class="col-2" style="padding-right: 10px;"> 
-                                    <select class="form-select" id="productname" name="productname" placeholder="(fills Product Name)" readonly> 
-                                        <option selected> Product Name </option>
-                                        <option value="Product1"> Product1 </option>
-                                        <option value="Product2"> Product2 </option>
+                                    
+                                    <label class="form-label" for="customername"> <strong> Customer Name <span style="color: red;">*</span> </strong> </label>
+                                    <select class="form-select" id="customer" name="customername" placeholder="Choose here.." readonly required>
+                                        <option value="{{order.Customer_ID}}" selected> {{order.Customer_ID.Primary_Contact_Name}} </option>
                                     </select>
                                 </div>
-                                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                                    <select class="form-select" id="unit" name="unit" placeholder="(fills Unit)" readonly>
-                                        <option selected> Unit </option>
-                                        <option value="Unit1"> Unit1 </option>
-                                        <option value="Unit2"> Unit2 </option>
-                                    </select>
-                                </div>"
-                                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                                    <input type="text" class="form-control" inputmode="numeric" id="unitprice" name="unitprice" placeholder="(fills Unit Price)" readonly>
-                                </div>
-                                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                                    <input type="text" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="(fills Quantity)" readonly>
-                                </div>
-                                <div class="col-2" style="padding-left: 0; padding-right: 10px;">
-                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="(fills Acquisition Code)" readonly>
-                                </div>
-                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
-                                    <input type="text" class="form-control" inputmode="numeric" id="discount" name="discount" placeholder="(fills Discount)" readonly>
-                                </div>
-                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
-                                    <input type="text" class="form-control" inputmode="numeric" id="amount" name="amount" placeholder="(fills Amount)" readonly>
-                                </div>
-                                <div class="col" style="padding-left: 0; padding-right: 0px;"> 
-                                    <button class="btn btn-danger" id="deleteButton"> X </button>
+                            </div>
+                        </div>
+
+                        <div class="col"> 
+                            <div class="form-group my-2"> 
+                                <label for="notes" class="form-label"> <strong> Note: </strong> </label>
+                                <textarea class="form-control" id="notes" name="notes" rows="5" placeholder="{{order.Note}}">{{order.Note}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row"> 
+                        <div class="col my-2">
+                            <strong> Products <span style="color: red;">*</span> </strong>
+                            <!-- <button class="btn btn-primary btn-sm mx-2" id="addButton"> + Add Form Field </button> -->
+                        </div>
+                        
+                        {% for product in order_inventory %}
+                        <div class="form-field d-flex justify-content-center" id="rowfield">
+                            <div class="container">
+                                <div class="row mt-1" id="rowfield"> 
+                                    <div class="col-2" style="padding-right: 10px;"> 
+                                        <select class="form-select" id="productname" name="productname" placeholder="Product Name" onchange="fill_product(this)" required>
+                                            <option value="{{product.Product_ID}}" data-unit="{{product.Product_ID.Unit}}" data-price="{{product.Product_ID.Unit_Price}}" data-aqcode="{{product.Product_ID.Acquisition_Code}}" selected> {{product.Product_ID.Product_Name}} </option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                        <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" value="{{product.Product_ID.Unit}}" readonly required>
+                                    </div>
+    
+                                    <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                        <input type="text" class="form-control" inputmode="numeric" id="unitprice" name="unitprice" placeholder="Unit Price" value="{{product.Product_ID.Unit_Price}}" onchange="fill_price(this)" required>
+                                    </div>
+                                    <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                        <input type="number" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="Quantity" value="{{product.Product_Quantity}}" onchange="fill_price(this)" min="1" step="1" required>
+                                    </div>
+                                    <div class="col-2" style="padding-left: 0; padding-right: 10px;">
+                                        <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="Acquisition Code" value="{{product.Product_ID.Acquisition_Code}}" readonly required>
+                                    </div>
+                                    <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                        {% for discount in discounts %}
+                                            {% if discount.Product_ID == product.Product_ID %}
+                                            <input type="number" class="form-control" inputmode="numeric" id="discount" name="discount" placeholder="Discount" value="{{discount.Discount}}" onchange="fill_price(this)" min="0" step="0.01" value="0">
+                                            {% endif %}
+                                        {% endfor %}
+                                        </div>
+                                    <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                        <input type="text" class="form-control" inputmode="numeric" id="amount" name="amount" placeholder="Amount" value="{{product.Amount}}" onchange="" required>
+                                    </div>
+                                    <div class="col" style="padding-left: 0; padding-right: 0;"> 
+                                        <button type="button" class="btn btn-danger deleteButton"> Delete </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                        {% endfor %}
 
-                <div class="row my-2"> 
-                    <div class="col"> 
-                        <input type="text" class="form-control" inputmode="numeric" id="totalprice" name="totalprice" placeholder="(fills TOTAL PRICE)" readonly>
-                    </div>
-                    <div class="col"> 
-                        <div class="row float-end"> 
-                            <button class="btn btn-warning" id="deleteOrderButton" style="width: 150px;"> Delete Order </button>
-                            <a class="btn btn-danger mx-3" id="cancelButton" style="width: 150px;" href="{% url 'view_orders' %}"> Cancel </a>
-                            <button class="btn btn-success" id="saveButton" style="width: 150px;"> Save </button>
+                        <div class="row mt-4"> 
+                            <div class="col"> 
+                                <input type="text" class="form-control" inputmode="numeric" id="totalprice" name="totalprice" placeholder="TOTAL PRICE" value="{{order.Total_Amount}}" readonly>
+                            </div>
+                            <div class="col"> 
+                                <div class="row float-end"> 
+                                    <a class="btn btn-warning" id="deleteOrderButton" style="width: 170px;" href="{% url 'delete_order' pk=order.pk %}"> Delete Order </a>
+                                    <a class="btn btn-danger mx-3" id="cancelButton" style="width: 170px;"> Cancel </a>
+                                    <button type="submit" class="btn btn-success" id="saveButton" style="width: 170px;"> Save </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-
     </div>
 
-    <script>
-        // JavaScript function to add form fields
-        var fieldCounter = 1;
+    <script> 
 
-        function addFormField() {
-          // Create a new form field
-          var newField = document.createElement("div");
-          newField.className = "form-field${fieldCounter}";
-          newField.innerHTML = `
-          <div class="row my-2">
-                <div class="col-2" style="padding-right: 10px;"> 
-                    <select class="form-select" id="productname${fieldCounter}" name="productname${fieldCounter}" placeholder="Product Name">
-                        <option selected> Product Name </option>
-                        <option value="Product1"> Product1 </option>
-                        <option value="Product2"> Product2 </option>
-                    </select>
-                </div>
-                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                    <select class="form-select" id="unit${fieldCounter}" name="unit${fieldCounter}" placeholder="Unit">
-                        <option selected> Unit </option>
-                        <option value="Unit1"> Unit1 </option>
-                        <option value="Unit2"> Unit2 </option>
-                    </select>
-                </div>
-                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                    <input type="text" class="form-control" inputmode="numeric" id="unitprice${fieldCounter}" name="unitprice${fieldCounter}" placeholder="Unit Price">
-                </div>
-                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                    <input type="number" class="form-control" inputmode="numeric" id="quantity${fieldCounter}" name="quantity${fieldCounter}" placeholder="Quantity">
-                </div>
-                <div class="col-2" style="padding-left: 0; padding-right: 10px;">
-                    <input type="text" class="form-control" id="acquisitioncode${fieldCounter}" name="acquisitioncode${fieldCounter}" placeholder="Acquisition Code">
-                </div>
-                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                    <input type="text" class="form-control" inputmode="numeric" id="discount${fieldCounter}" name="discount${fieldCounter}" placeholder="Discount">
-                </div>
-                <div class="col" style="padding-left: 0; padding-right: 10px;">
-                    <input type="text" class="form-control" inputmode="numeric" id="amount${fieldCounter}" name="amount${fieldCounter}" placeholder="Amount">
-                </div>
-                <div class="col" style="padding-left: 0; padding-right: 0px;">
-                    <button class="btn btn-danger" id="deleteButton" onclick="deleteFormField(${fieldCounter})"> X </button>
-                </div>
-            </div>
-          `;
+        function fill_product(productElement) {
+            var selectElement = $(productElement);
+            var selectedOption = selectElement.find("option:selected");
+            var unit = selectedOption.data("unit");
+            var unitprice = selectedOption.data("price");
+            var quantity = 0;
+            var aqcode = selectedOption.data("aqcode");
+            var amount = 0;
+            selectElement.closest(".form-field").find("#unit").val(unit);
+            selectElement.closest(".form-field").find("#unitprice").val(unitprice);
+            selectElement.closest(".form-field").find("#quantity").val(quantity);
+            selectElement.closest(".form-field").find("#acquisitioncode").val(aqcode);
+            selectElement.closest(".form-field").find("#amount").val(amount.toFixed(2));
+        }
 
-          fieldCounter++;
+        function fill_product_added_row(productElement) {
+            var selectElement = $(productElement);
+            var selectedOption = selectElement.find("option:selected");
+            var unit = selectedOption.data("unit");
+            var unitprice = selectedOption.data("price");
+            var quantity = 0 
+            var aqcode = selectedOption.data("aqcode");
+            var amount = 0;
+            selectElement.closest("#rowfield").find("#unit").val(unit);
+            selectElement.closest("#rowfield").find("#unitprice").val(unitprice);
+            selectElement.closest("#rowfield").find("#quantity").val(quantity);
+            selectElement.closest("#rowfield").find("#acquisitioncode").val(aqcode);
+            selectElement.closest("#rowfield").find("#amount").val(amount.toFixed(2));
+        }
+
+        // function fill_product() {
+        //     var selectElement = document.getElementById("productname");
+        //     var selectedOption = selectElement.options[selectElement.selectedIndex];
+        //     var unit = selectedOption.getAttribute("data-unit");
+        //     var unitprice = selectedOption.getAttribute("data-price");
+        //     var aqcode = selectedOption.getAttribute("data-aqcode");
+        //     document.getElementById("unit").value = unit;
+        //     document.getElementById("acquisitioncode").value = aqcode;
+        //     document.getElementById("unitprice").value = unitprice;
+        // }
+
+        function fill_price(productElement) {
+            var selectElement = $(productElement);
+            var price = parseFloat(document.getElementById("unitprice").value);
+            var quantity = parseFloat(document.getElementById("quantity").value);
+            var discount = parseFloat(document.getElementById("discount").value);
+            var discountfactor = 1 - discount;
+            var amount = parseFloat(price * quantity * discountfactor); 
+            selectElement.closest(".form-field").find("#amount").val(amount.toFixed(2));
+        }
+
+        function fill_price_added_row(productElement) {
+            var selectElement = $(productElement);
+            var price = parseFloat(selectElement.closest("#rowfield").find("#unitprice").val());
+            var quantity = parseFloat(selectElement.closest("#rowfield").find("#quantity").val());
+            var discount = parseFloat(selectElement.closest("#rowfield").find("#discount").val());
+            var discountfactor = 1 - discount;
+            var amount = parseFloat(price * quantity * discountfactor); 
+            selectElement.closest("#rowfield").find("#amount").val(amount.toFixed(2));
+        }
+
+        // function fill_total_price() {
+        //     var totalprice = parseFloat(document.getElementById("amount").val());
+        //     document.getElementById("totalprice").value = totalprice.toFixed(2);
+        // }
+
+        $(document).ready(function() {
+            function updateTotalPrice() {
+                var totalPrice = 0; // Initialize total price
+                // Iterate over all the amount fields and sum up their values
+                $('.form-field').each(function() {
+                    var amount = parseFloat($(this).find("#amount").val()); // Get the value of each amount field
+                    if (!isNaN(amount)) { // Check if the value is a valid number
+                        totalPrice += amount; // Add the amount value to the total price
+                    }
+                });
+
+                // Update the total price field with the computed total
+                $('#totalprice').val(totalPrice.toFixed(2));
+            }
+
+            updateTotalPrice();
+
+            // Event listener to update total price when quantity fields change
+            $(document).on('input', '.form-field input[type="number"]', function() {
+                var inputField = $(this);
+                // Wait for 100 milliseconds before calling updateTotalPrice
+                setTimeout(function() {
+                    updateTotalPrice(); // Call the updateTotalPrice function after a slight delay
+                }, 100);
+            });
+
+            $("#addButton").click(function(e){
+                e.preventDefault();
+                $("#rowfield").last().after(`
+                    <div class="form-field d-flex justify-content-center" id="rowfield">
+                        <div class="container">
+                            <div class="row mt-1"> 
+                                <div class="col-2" style="padding-right: 10px;"> 
+                                    <select class="form-select" id="productname" name="productname" placeholder="Product Name" onchange="fill_product_added_row(this)" required>
+                                        <option value="" selected disabled> Choose here... </option>
+                                    {% for p in products %}
+                                        <option value="{{p.Product_ID}}" data-unit="{{p.Unit}}" data-price="{{p.Unit_Price}}" data-aqcode="{{p.Acquisition_Code}}"> {{p.Product_Name}} </option>
+                                    {% endfor %}
+
+                                    </select>
+                                </div>
+                                    
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" readonly required>
+                                </div>
+
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="text" class="form-control" inputmode="numeric" id="unitprice" name="unitprice" placeholder="Unit Price" onchange="fill_price_added_row(this)" required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="number" class="form-control" inputmode="numeric" id="quantity" name="quantity" placeholder="Quantity" onchange="fill_price_added_row(this)" min="1" step="1" required>
+                                </div>
+                                <div class="col-2" style="padding-left: 0; padding-right: 10px;">
+                                    <input type="text" class="form-control" id="acquisitioncode" name="acquisitioncode" placeholder="Acquisition Code" readonly required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                    <input type="number" class="form-control" inputmode="numeric" id="discount" name="discount" placeholder="Discount" onchange="fill_price_added_row(this)" min="0" step="0.01" value="0">
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 10px;"> 
+                                    <input type="text" class="form-control" inputmode="numeric" id="amount" name="amount" placeholder="Amount" required>
+                                </div>
+                                <div class="col" style="padding-left: 0; padding-right: 0;"> 
+                                    <button type="button" class="btn btn-danger deleteButton"> Delete </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            });
+
+            $(document).on('click', '.deleteButton', function(e) {
+                e.preventDefault();
+                $(this).closest('#rowfield').remove();
+                updateTotalPrice();
+            });
+        });
         
-          // Append the new form field to the form
-          var form = document.getElementById('field');
-          form.insertAdjacentElement("afterend", newField)
-        }
-    
-        function deleteFormField(fieldNumber) {
-            var formField = document.getElementById('field${fieldCounter}');
-            formField.remove();
-        }
+        // function deleteField(productElement){
+        //     var selectedElement = $(productElement);
+        //     selectedElement.closest(".rowfield").remove();
+        // }
 
-        // Add event listener to the "Add Form Field" button
-        document.getElementById('addButton').addEventListener('click', addFormField);
-        document.getElementById('deleteButton').addEventListener('click', deleteFormField);
+        // Event listener for form submission
+        $('#myForm').submit(function(e) {
+            // This prevents the form from submitting normally
+            e.preventDefault();
+
+            // Check if any form fields are empty
+            var isEmpty = false;
+            $('.form-field').each(function() {
+                var quantity = $(this).find("#quantity").val();
+                if (!quantity || parseInt(quantity) <= 0) {
+                    isEmpty = true;
+                    return false; // Exit the loop early if an empty field is found
+                }
+            });
+
+            // If any field is empty, prevent form submission
+            if (isEmpty) {
+                alert("Please fill in all quantity fields with a value greater than 0.");
+                return;
+            }
+
+            // Collect and store rowfield data
+            var formData = [];
+            $('.form-field').each(function() {
+                var data = {
+                    product_id: $(this).find("#productname").val(),
+                    unit: $(this).find("#unit").val(),
+                    unit_price: $(this).find("#unitprice").val(),
+                    quantity: $(this).find("#quantity").val(),
+                    acquisition_code: $(this).find("#acquisitioncode").val(),
+                    discount: $(this).find("#discount").val(),
+                    amount: $(this).find("#amount").val()
+                };
+                formData.push(data);
+                console.log(formData);
+            });
+
+            // Append formData as a hidden field in the form
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'formData',
+                value: JSON.stringify(formData) // Convert to JSON string
+            }).appendTo('#myForm');
+
+            // Submit the form
+            this.submit();
+
+        });
+
+        $(document).ready(function() {
+            console.log('Parsely initialized');
+            $('#myForm').parsley();
+        });
+
+        document.getElementById("cancelButton").addEventListener("click", function() {
+            // Navigate back in the browser's history
+            window.history.back();
+        });
     </script>
 
 {% endblock %}
