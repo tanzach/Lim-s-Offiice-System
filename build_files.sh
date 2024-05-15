@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Create and activate virtual environment
+echo "Creating virtual environment..."
+python3.9 -m venv venv
+source venv/bin/activate
+
 # Update pip
 echo "Updating pip..."
 python3.9 -m pip install -U pip
@@ -8,6 +13,9 @@ python3.9 -m pip install -U pip
 
 echo "Installing project dependencies..."
 python3.9 -m pip install -r requirements.txt
+
+# Ensure manage.py commands are run from the correct directory
+cd /vercel/path0
 
 # Make migrations
 echo "Making migrations..."
