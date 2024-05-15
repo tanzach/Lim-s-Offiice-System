@@ -333,7 +333,8 @@ def view_orders(request):
     if request.user.is_authenticated: 
         orders = Order.objects.all()
         employee_type = request.user.Employee_Type
-        if request.user.Employee_Type == "CEO" or "Warehouse Staff": 
+        authorized = ["CEO", "Warehouse Staff"]
+        if request.user.Employee_Type in authorized: 
             return render(request, 'projectapp/view_orders_owner.html', {'orders':orders, 'employee_type':employee_type})
         else:
             return render(request, 'projectapp/view_orders.html', {'orders':orders, 'employee_type':employee_type})
