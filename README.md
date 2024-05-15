@@ -1,4 +1,4 @@
-# Readme
+# ReadMe
 
 ### Create a virtual environment
 - python -m venv (env name) 
