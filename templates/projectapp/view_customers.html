@@ -1,0 +1,91 @@
+{% extends 'projectapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center"> 
+        <div class="col-7 d-flex justify-content-center" style="height: 90px; margin-right: 20px;  background-color: #F5F5F5; border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"">
+            <div class="row">
+                <div class="col-md-3 d-flex align-items-center"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+                <div class="col d-flex align-items-center">
+                    <h3> View Customers </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 d-flex justify-content-center" style="height: 90px; 
+        {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
+        {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
+        {% if employee_type == "CEO" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
+        border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
+            <div class="row"> 
+                <div class="col-md-9">
+                    <div class="row"> 
+                        <h4 class="text-end mt-3 mb-0"> {{ request.user.first_name }} </h4>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end mt-0 mb-1"> {{ employee_type }} </h5>
+                    </div>
+                </div>                    
+                <div class="col-md-3 my-auto">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="messages mt-4">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col text-end mt-5 mb-3"> 
+            <a class="btn btn-success" href="{% url 'new_customer' %}"> Create New Customer </a>
+        </div>
+    </div>
+
+    <div class="table-responsive"> 
+        <table id="viewcustomers" class="table table-striped display text-center my-2">
+            <thead>
+                <tr class="table-light" style="background-color: #CFE2FF;">
+                    <th class="text-center align-middle" scope="col">Customer ID</th>
+                    <th class="text-center align-middle" scope="col">Customer Type</th>
+                    <th class="text-center align-middle" scope="col">Company Name</th>
+                    <th class="text-center align-middle" scope="col">Primary Contact</th>
+                    <th class="text-center align-middle" scope="col">Email</th>
+                    <th class="text-center align-middle" scope="col">Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in customers %}
+                <tr class="table-light">
+                    <td class="text-center"><a href="{% url 'edit_customer' pk=c.pk %}"> C {{c.Customer_ID|stringformat:"04d"}} </a></td>
+                    <td class="text-center"> {{c.Customer_Type}}</td>
+                    <td class="text-center"> {{c.Company_Name}} </td>
+                    <td class="text-center"> {{c.Primary_Contact_Name}} </td>
+                    <td class="text-center"> {{c.Email}} </td>
+                    <td class="text-center"> {{c.Phone_Number}} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row my-2"> 
+        <div class="col-12 text-end my-3"> 
+            <a class="btn btn-primary" href="{% url 'homepage' %}"> Back to Main Menu </a>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'projectapp/js/view_customers.js' %}"> </script>
+    
+{% endblock %}

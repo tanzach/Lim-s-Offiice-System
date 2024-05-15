@@ -1,0 +1,163 @@
+{% extends 'projectapp/base.html' %}
+
+{% load static %}
+<html>
+<head> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/custom.css' %}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.9.2/dist/parsley.min.js"></script>
+    
+    <style> 
+    .parsley-errors-list {
+      color: red;
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .parsley-errors-list li {
+      list-style: none;
+      margin-bottom: 5px;
+    }
+
+    input:valid {
+      border: 1px solid green;
+    }
+
+    input:invalid {
+      border: 1px solid red;
+    }
+    
+    </style>
+</head>
+<body> 
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center"> 
+        <div class="col-7 d-flex justify-content-center" style="height: 90px; margin-right: 20px;  background-color: #F5F5F5; border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"">
+            <div class="row">
+                <div class="col-md-3 d-flex align-items-center"> 
+                    <img src="{% static 'projectapp/lims.png' %}" class="img-fluid" alt="Lim's Company Logo"> 
+                </div>
+                <div class="col d-flex align-items-center">
+                    <h3> New Customer </h3>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-4 d-flex justify-content-center" style="height: 90px; 
+        {% if employee_type == "Office Clerk" %} background-color: #EBF8EC; {% endif %}
+        {% if employee_type == "Marketing Staff" %} background-color: #FEF7EE; {% endif %}
+        {% if employee_type == "CEO" %} background-color: #B2000033; {% endif %}
+        {% if employee_type == "Warehouse Staff" %} background-color: #D9EFFB; {% endif %}
+        border-radius: 14px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08); border: 1px solid #C5C5C5;"> 
+            <div class="row"> 
+                <div class="col-md-9">
+                    <div class="row"> 
+                        <h4 class="text-end mt-3 mb-0"> {{ request.user.first_name }} </h4>
+                    </div>
+                    <div class="row"> 
+                        <h5 class="text-end mt-0 mb-1"> {{ employee_type }} </h5>
+                    </div>
+                </div>                    
+                <div class="col-md-3 my-auto">
+                    <img src="{% static 'projectapp/profile.png' %}" class="img-fluid" alt="Profile Icon"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="col-12 mt-5 d-flex justify-content-center">
+            <div class="card mb-5" style="width: 35rem; background-color: #F5F5F5; border-radius: 14px;">
+                <div class="card-body">
+
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %} {{message.tags}} {% endif %}" role="alert"> {{ message }} </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form id="newcustomer" method="POST" action="{% url 'new_customer' %}"> {% csrf_token %}
+                        <div class="row mb-2"> 
+                            <div class="col my-3">
+                                <strong class="mx-2"> Customer Type <span style="color: red;">*</span> </strong>
+                                <div class="form-check form-check-inline" data-parsley-mincheck="1" data-parsley-maxcheck="1">
+                                    <input class="form-check-input" type="radio" id="ordertype" name="ordertype" value="Business" checked>
+                                    <label class="form-check-label" for="Business">Business</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="ordertype" name="ordertype" value="Individual">
+                                    <label class="form-check-label" for="Individual">Individual</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2"> 
+                            <div class="col">
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="companyname"><b> Company Name <span style="color: red;">*</span> </b></label>
+                                    <input type="text" class="form-control" id="companyname" name="companyname" placeholder="Company Name" data-parsley-trigger="input" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="contactname"><b> Primary Contact Name <span style="color: red;">*</span> </b></label>
+                                    <input type="text" class="form-control" id="contactname" name="contactname" placeholder="Customer Name" data-parsley-trigger="input" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="email"><b> Email <span style="color: red;">*</span> </b></label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" data-parsley-type="email" data-parsley-trigger="input" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row"> 
+                            <div class="col"> 
+                                <div class="form-group p-2">
+                                    <label class="form-label" for="phonenumber"><b> Phone Number <span style="color: red;">*</span></b></label>
+                                    <input type="tel" class="form-control" id="phonenumber" name="phonenumber" placeholder="Phone Number" data-parsley-pattern="\d{11}" data-parsley-trigger="input" data-parsley-error-message="Please enter a valid 11-digit phone number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mt-3">
+                            <div class="col text-end"> 
+                                <a class="btn btn-danger" style="width: 230px;" href="{% url 'view_customers' %}"> Cancel </a>
+                            </div>
+                            <div class="col text-start"> 
+                                <button type="submit" class="btn btn-success" style="width: 230px;"> Save </button>
+                            </div>
+                        </div> 
+                    </form>      
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script src="{% static 'projectapp/js/new_customer.js' %}"> 
+
+    
+
+</script> 
+
+</html>
+
+{% endblock %}
